@@ -1,5 +1,6 @@
 #include "main.h"
-#include "sorry-error.h"
+
+void executeCommand(char *command);
 
 int main(int argc, char *argv[])
 {
@@ -19,19 +20,19 @@ int main(int argc, char *argv[])
 
         read_bytes = getline(&command, &len, stdin);
 
-        if (read_bytes == -1) 
+        if (read_bytes == -1)
         {
-            if (feof(stdin)) 
+            if (feof(stdin))
             {
                 write(1, "\n", 1);
                 free(command);
                 break;
             }
-            else
+            else if (ferror(stdin))
             {
                 handle_getline_error();
                 free(command);
-                continue; 
+                continue;
             }
         }
 
@@ -46,40 +47,45 @@ int main(int argc, char *argv[])
             break;
         }
 
-        pid_t pid = fork();
-
-        if (pid == -1)
-        {
-            handle_fork_error();
-        }
-        else if (pid == 0)
-        {
-            char *const envp[] = {NULL}; 
-
-            if (access(command, X_OK) == -1)
-            {
-                // Check if the command is valid
-                handle_access_error(command);
-            }
-
-            if (execve(command, NULL, environ) == -1)
-            {
-                // Execution failed
-                handle_execve_error(command);
-            }
-        }
-        else
-        {
-            
-            int status;
-            if (waitpid(pid, &status, 0) == -1)
-            {
-                handle_waitpid_error();
-            }
-        }
+        executeCommand(command);
 
         free(command);
     }
 
     return 0;
 }
+
+void executeCommand(char *command)
+{
+    pid_t pid = fork();
+
+    if (pid == -1)
+    {
+        handle_fork_error();
+    }
+    else if (pid == 0)
+    {
+        char *const envp[] = {NULL};
+
+        if (access(command, X_OK) == -1)
+        {
+            handle_access_error(command);
+            exit(EXIT_FAILURE);
+        }
+
+        if (execve(command, NULL, environ) == -1)
+        {
+            handle_execve_error(command);
+            exit(EXIT_FAILURE);
+        }
+    }
+    else
+    {
+        int status;
+        if (waitpid(pid, &status, 0) == -1)
+        {
+            handle_waitpid_error();
+        }
+    }
+}
+
