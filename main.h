@@ -15,8 +15,8 @@ extern char **environ;  // Declare the environment variable
 void handle_malloc_error();
 void handle_getline_error();
 void handle_fork_error();
-void handle_access_error(char *command);
-void handle_execve_error(char *command);
+void handle_access_error(const char *command);
+void handle_execve_error(const char *command);
 void handle_waitpid_error();
 
 int main(int argc, char *argv[]);
