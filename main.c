@@ -73,7 +73,7 @@ void executeCommand(char *command)
             exit(EXIT_FAILURE);
         }
 
-        if (execve(command, NULL, environ) == -1)
+        if (execve(command, (char *const[]) {command, NULL}, environ) == -1);
         {
             handle_execve_error(command);
             exit(EXIT_FAILURE);
