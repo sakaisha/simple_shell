@@ -5,11 +5,11 @@ int main(int argc, char *argv[]) {
     size_t len = 0;
     ssize_t read;
 
-    if (argc == 1) {
+    if (argc == 1 || (argc == 2 && strcmp(argv[1], "-c") == 0)) {
         while (1) {
             char *tokens[MAX_TOKENS];
             display_prompt();
-            if ((read = getline(&input, &len, stdin)) == -1) {
+            if ((read = read_line(&input, &len)) == -1) {
                 break; /* End of file (Ctrl+D) detected */
             }
 
@@ -21,14 +21,14 @@ int main(int argc, char *argv[]) {
                 }
             }
         }
-    } else if (argc == 2) {
+    } else if (argc == 2 && strcmp(argv[1], "-c") != 0) {
         FILE *file = fopen(argv[1], "r");
         if (file == NULL) {
             perror("Error opening file");
             return EXIT_FAILURE;
         }
 
-        while ((read = getline(&input, &len, file)) != -1) {
+        while ((read = read_line(&input, &len, file)) != -1) {
             char *tokens[MAX_TOKENS];
             tokenize(input, tokens);
 
@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
 
         fclose(file);
     } else {
-        perror("Usage: hsh [file]");
+        perror("Usage: hsh [-c command | script-file]");
         return EXIT_FAILURE;
     }
 
