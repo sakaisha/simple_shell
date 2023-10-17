@@ -9,7 +9,7 @@ int main(int argc, char *argv[]) {
         while (1) {
             char *tokens[MAX_TOKENS];
             display_prompt();
-            if ((read = read_line(&input, &len)) == -1) {
+            if ((read = read_line(&input, &len, stdin)) == -1) {
                 break; /* End of file (Ctrl+D) detected */
             }
 
@@ -28,17 +28,16 @@ int main(int argc, char *argv[]) {
             return EXIT_FAILURE;
         }
 
-      while ((read = read_line(&input, &len)) != -1) {
-        char *tokens[MAX_TOKENS];
-        tokenize(input, tokens);
+        while ((read = read_line(&input, &len, file)) != -1) {
+            char *tokens[MAX_TOKENS];
+            tokenize(input, tokens);
 
-        if (tokens[0] != NULL) {
-            if (execute_builtin(tokens) == -1) {
-                perror("Execution failed");
+            if (tokens[0] != NULL) {
+                if (execute_builtin(tokens) == -1) {
+                    perror("Execution failed");
+                }
             }
         }
-    }
-
 
         fclose(file);
     } else {
