@@ -32,9 +32,4 @@ int execute_builtin(char **args);
 
 void tokenize(char *input, char **tokens);
 
-/* my functions :) */
-size_t mystrlen(const char *str);
-char* mystrcpy(char *dest, const char *src);
-int mystrcmp(const char *str1, const char *str2);
-
 #endif /* MAIN_H */

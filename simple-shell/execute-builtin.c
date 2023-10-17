@@ -4,25 +4,11 @@ char *get_path(char *command) {
     char *path_copy, *token, *path;
     size_t token_len, command_len, path_len, written;
 
-    char *path_env = getenv("PATH");
-    if (path_env == NULL) {
-        perror("get_path: getenv error");
-        return NULL;
-    }
+    path_copy = strdup(getenv("PATH"));
 
-    size_t path_env_len = 0;
-    while (path_env[path_env_len] != '\0') {
-        ++path_env_len;
-    }
-
-    path_copy = (char *)malloc(path_env_len + 1);
     if (path_copy == NULL) {
-        perror("get_path: malloc error");
+        perror("get_path: strdup error");
         return NULL;
-    }
-
-    for (size_t i = 0; i <= path_env_len; ++i) {
-        path_copy[i] = path_env[i];
     }
 
     path = NULL;
@@ -32,16 +18,8 @@ char *get_path(char *command) {
             break;
         }
 
-        token_len = 0;
-        while (token[token_len] != '\0') {
-            ++token_len;
-        }
-
-        command_len = 0;
-        while (command[command_len] != '\0') {
-            ++command_len;
-        }
-
+        token_len = strlen(token);
+        command_len = strlen(command);
         path_len = token_len + command_len + 2;
 
         path = (char *)malloc(path_len);
@@ -68,4 +46,71 @@ char *get_path(char *command) {
 
     free(path_copy);
     return NULL;
+}
+
+void execute_command(char **argv) {
+    char *command = NULL, *actual_command = NULL;
+
+    if (argv) {
+        command = argv[0];
+        actual_command = get_path(command);
+
+        if (actual_command == NULL) {
+            perror("execute_command: command not found");
+            return;
+        }
+
+        if (execve(actual_command, argv, NULL) == -1) {
+            perror("execute_command: execve error");
+        }
+
+        free(actual_command);
+    }
+}
+
+int execute_builtin(char **args) {
+    if (args[0] == NULL) {
+        return 1;
+    }
+
+    if (strcmp(args[0], "cd") == 0) {
+        return cd_builtin(args);
+    } else if (strcmp(args[0], "exit") == 0) {
+        return exit_builtin(args);
+    } else if (strcmp(args[0], "pwd") == 0) {
+        return pwd_builtin(args);
+    } else if (strcmp(args[0], "echo") == 0) {
+        return echo_builtin(args);
+    } else if (strcmp(args[0], "environ") == 0) {
+        return environ_builtin(args);
+    } else {
+        pid_t pid;
+        int status;
+
+        pid = fork();
+
+        if (pid == 0) {
+            if (execvp(args[0], args) == -1) {
+                write(STDERR_FILENO, "hsh: command not found: ", 24);
+                write(STDERR_FILENO, args[0], strlen(args[0]));
+                write(STDERR_FILENO, "\n", 1);
+            }
+            _exit(EXIT_FAILURE);
+        } else if (pid < 0) {
+            perror("hsh");
+        } else {
+            do {
+                status = 0;
+                if (waitpid(pid, &status, WUNTRACED) == -1) {
+                    perror("waitpid");
+                    status = -1;
+                    break;
+                }
+            } while (!WIFEXITED(status) && !WIFSIGNALED(status));
+        }
+
+        return status;
+    }
+
+    return -1;
 }
