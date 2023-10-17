@@ -37,7 +37,6 @@ char *get_path(char *command) {
 
         if (access(path, X_OK) == 0) {
             free(path_copy);
-            free(path);
             return path;
         }
 
