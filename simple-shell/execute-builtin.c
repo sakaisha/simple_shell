@@ -47,6 +47,7 @@ char *get_path(char *command) {
     return NULL;
 }
 
+
 void execute_command(char **argv) {
     char *command = NULL, *actual_command = NULL;
 
