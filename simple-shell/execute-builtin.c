@@ -10,6 +10,7 @@ char *get_path(char *command) {
         return NULL;
     }
 
+    char *path; 
     token = strtok(path_copy, ":");
     while (1) {
         if (token == NULL) {
@@ -20,7 +21,7 @@ char *get_path(char *command) {
         command_len = strlen(command);
         path_len = token_len + command_len + 2;
 
-        char *path = (char *)malloc(path_len);
+        path = (char *)malloc(path_len);
         size_t written;
 
         if (path == NULL) {
@@ -47,6 +48,7 @@ char *get_path(char *command) {
     free(path_copy);
     return NULL;
 }
+
 
 void execute_command(char **argv) {
     char *command = NULL, *actual_command = NULL;
