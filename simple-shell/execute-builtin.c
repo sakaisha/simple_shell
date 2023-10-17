@@ -1,16 +1,17 @@
 #include "main.h"
 
 char *get_path(char *command) {
-    char *path_copy = strdup(getenv("PATH"));
-    char *token;
-    size_t token_len, command_len, path_len;
+    char *path_copy, *token, *path;
+    size_t token_len, command_len, path_len, written;
+
+    path_copy = strdup(getenv("PATH"));
 
     if (path_copy == NULL) {
         perror("get_path: strdup error");
         return NULL;
     }
 
-    char *path; 
+    path = NULL;
     token = strtok(path_copy, ":");
     while (1) {
         if (token == NULL) {
@@ -22,7 +23,6 @@ char *get_path(char *command) {
         path_len = token_len + command_len + 2;
 
         path = (char *)malloc(path_len);
-        size_t written;
 
         if (path == NULL) {
             perror("get_path: malloc error");
@@ -48,7 +48,6 @@ char *get_path(char *command) {
     free(path_copy);
     return NULL;
 }
-
 
 void execute_command(char **argv) {
     char *command = NULL, *actual_command = NULL;
