@@ -1,4 +1,12 @@
+// main.c
+
 #include "main.h"
+#include <unistd.h>
+
+void display_prompt(void) {
+    const char prompt[] = "$ ";
+    write(STDOUT_FILENO, prompt, sizeof(prompt) - 1);
+}
 
 int main(int argc, char *argv[]) {
     char *input = NULL;
