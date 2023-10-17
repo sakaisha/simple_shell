@@ -50,14 +50,14 @@ int execute_builtin(char **args) {
             write(STDOUT_FILENO, "\n", 1);
 
             // Execute the external command with the environment variables
-            if (execve(args[0], args, environ) == -1) {
-                // If execve fails, print a descriptive error
+            if (execvp(args[0], args) == -1) {
+                // If execvp fails, print a descriptive error
                 write(STDERR_FILENO, "hsh: command not found: ", 24);
                 write(STDERR_FILENO, args[0], strlen(args[0]));
                 write(STDERR_FILENO, "\n", 1);
             }
 
-            // If execve fails, exit the child process with failure status
+            // If execvp fails, exit the child process with failure status
             _exit(EXIT_FAILURE);
         } else if (pid < 0) {
             // Fork error

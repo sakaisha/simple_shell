@@ -5,7 +5,6 @@ int main(int argc, char *argv[]) {
     char *tokens[MAX_TOKENS];
 
     if (argc == 1) {
-        
         while (1) {
             display_prompt();
             if (read_line(input, MAX_INPUT_SIZE) == -1) {
@@ -21,7 +20,6 @@ int main(int argc, char *argv[]) {
             }
         }
     } else if (argc == 2) {
-        
         FILE *file = fopen(argv[1], "r");
         if (file == NULL) {
             display_error("Error opening file");
@@ -44,5 +42,5 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-    return 0; // or EXIT_SUCCESS
+    return EXIT_SUCCESS;
 }
