@@ -1,6 +1,6 @@
 #include "main.h"
 
- tokenize(char *input, char **tokens) {
+void tokenize(char *input, char **tokens) {
     char *token = strtok(input, " \t\n\r");
     int i = 0;
 

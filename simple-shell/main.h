@@ -28,6 +28,6 @@ int echo_builtin(char **args);
 int environ_builtin(char **args);
 int execute_builtin(char **args);
 
-void tokenize(char *input, char **tokens);
+void tokenize(char *input, char **tokens)
 
 #endif /* MAIN_H */
