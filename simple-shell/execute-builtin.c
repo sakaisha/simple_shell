@@ -9,7 +9,6 @@ char *get_path(char *command) {
 
     char *path_copy = strdup(env_path);
     char *token = strtok(path_copy, ":");
-    size_t written = 0;
 
     while (token != NULL) {
         size_t token_len = strlen(token);
@@ -22,9 +21,9 @@ char *get_path(char *command) {
             return NULL;
         }
 
-        written = write(STDOUT_FILENO, token, token_len);
-        written = write(STDOUT_FILENO, "/", 1);
-        written = write(STDOUT_FILENO, command, command_len);
+        write(STDOUT_FILENO, token, token_len);
+        write(STDOUT_FILENO, "/", 1);
+        write(STDOUT_FILENO, command, command_len);
         write(STDOUT_FILENO, "\0", 1);
 
         if (access(path, X_OK) == 0) {
@@ -61,6 +60,7 @@ void execute_command(char **argv) {
 }
 
 int execute_builtin(char **args) {
+
     if (args[0] == NULL) {
         return 1;
     }
