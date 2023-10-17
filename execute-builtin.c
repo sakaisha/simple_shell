@@ -4,7 +4,6 @@ char *get_path(char *command) {
     char *path_copy, *token, *path;
     size_t token_len, command_len, path_len, written;
 
-    size_t path_env_len = 0;
     char *path_env = getenv("PATH");
     if (path_env == NULL) {
         perror("get_path: getenv error");

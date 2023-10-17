@@ -1,6 +1,5 @@
 #include "main.h"
 #include <unistd.h>
-#include <fcntl.h>
 
 void display_prompt(void) {
     const char prompt[] = "$ ";
@@ -57,21 +56,21 @@ int main(int argc, char *argv[]) {
         }
     } else if (argc == 2 && mystrcmp(argv[1], "-c") != 0) {
         int file = open(argv[1], O_RDONLY);
-if (file == -1) {
-    perror("Error: Unable to open the specified file");
-    return EXIT_FAILURE;
-}
+        if (file == -1) {
+            perror("Error: :( Unable to open the specified file");
+            return EXIT_FAILURE;
+        }
 
-while ((read = read_line(&input, &len, file)) != -1) {
-
+        while ((read = read_line(&input, &len, file)) != -1) {
             char *tokens[MAX_TOKENS];
             tokenize(input, tokens);
 
-          if (tokens[0] != NULL) {
-          if (execute_builtin(tokens) == -1) {
-           perror("Error: Failed to execute built-in command");
+            if (tokens[0] != NULL) {
+                if (execute_builtin(tokens) == -1) {
+                    perror("Error: Failed to execute built-in command");
+                }
+            }
         }
-}
 
         close(file);
     } else {
