@@ -20,7 +20,7 @@ char *get_path(char *command) {
         command_len = strlen(command);
         path_len = token_len + command_len + 2;
 
-        char *path = (char *)malloc(path_len);
+char *path = (char *)malloc(path_len);
         size_t written;
 
         if (path == NULL) {
