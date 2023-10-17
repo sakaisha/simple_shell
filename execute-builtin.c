@@ -7,17 +7,19 @@ char *get_path(char *command) {
     path_copy = string_duplicate(getenv("PATH"));
 
     if (path_copy == NULL) {
-        perror("get_path: string_duplicate function error");
+        perror("could not copy the PATH :(");
         return NULL;
     }
 
     path = NULL;
     token = strtok(path_copy, ":");
     while (1) {
+        /* if PATH is empty we should break */
         if (token == NULL) {
             break;
         }
 
+        /* if PATH is normal and has ":" */
         token_len = string_length(token);
         command_len = string_length(command);
         path_len = token_len + command_len + 2;
@@ -60,7 +62,7 @@ void execute_command(char **argv) {
             return;
         }
 
-        if (execve(actual_command, argv, NULL) == -1) {
+        if (execve(actual_command, argv, environ) == -1) {
             perror("execute_command: execve error");
         }
 
@@ -91,8 +93,10 @@ int execute_builtin(char **args) {
 
         if (pid == 0) {
             if (execvp(args[0], args) == -1) {
-                write(STDERR_FILENO, "hsh: command not found: ", 24);
+                write(STDERR_FILENO, "hsh: ", 5);
+                write(STDERR_FILENO, "1: ", 3);
                 write(STDERR_FILENO, args[0], string_length(args[0]));
+                write(STDERR_FILENO, ": not found", 12);
                 write(STDERR_FILENO, "\n", 1);
             }
             _exit(EXIT_FAILURE);
@@ -114,3 +118,4 @@ int execute_builtin(char **args) {
 
     return -1;
 }
+
