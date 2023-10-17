@@ -1,7 +1,6 @@
 #include "main.h"
 
 int pwd_builtin(char **args) {
-    (void)args; 
     char cwd[MAX_INPUT_SIZE];
     if (getcwd(cwd, sizeof(cwd)) != NULL) {
         write(STDOUT_FILENO, cwd, strlen(cwd));
@@ -13,7 +12,6 @@ int pwd_builtin(char **args) {
 }
 
 int environ_builtin(char **args) {
-    (void)args;
     extern char **environ;
     char **env;
     for (env = environ; *env != NULL; env++) {
