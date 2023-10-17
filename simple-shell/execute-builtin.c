@@ -1,29 +1,30 @@
 #include "main.h"
 
 char *get_path(char *command) {
-    char *path = NULL;
-    char *env_path = getenv("PATH");
-    if (env_path == NULL) {
+    char *path_copy = strdup(getenv("PATH"));
+    if (path_copy == NULL) {
+        perror("get_path: strdup error");
         return NULL;
     }
 
-    char *path_copy = strdup(env_path);
     char *token = strtok(path_copy, ":");
 
     while (token != NULL) {
         size_t token_len = strlen(token);
         size_t command_len = strlen(command);
         size_t path_len = token_len + command_len + 2;
-        path = (char *)malloc(path_len);
+
+        char *path = (char *)malloc(path_len);
         if (path == NULL) {
             perror("get_path: malloc error");
             free(path_copy);
             return NULL;
         }
 
-        write(STDOUT_FILENO, token, token_len);
-        write(STDOUT_FILENO, "/", 1);
-        write(STDOUT_FILENO, command, command_len);
+        size_t written = 0;
+        written += write(STDOUT_FILENO, token, token_len);
+        written += write(STDOUT_FILENO, "/", 1);
+        written += write(STDOUT_FILENO, command, command_len);
         write(STDOUT_FILENO, "\0", 1);
 
         if (access(path, X_OK) == 0) {
