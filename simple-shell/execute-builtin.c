@@ -9,20 +9,37 @@ char *get_path(char *command) {
         return NULL;
     }
 
-    
     char *path_copy = strdup(env_path);
     char *token = strtok(path_copy, ":");
     while (token != NULL) {
-       
         size_t token_len = strlen(token);
         size_t command_len = strlen(command);
-        size_t path_len = token_len + command_len + 2; 
+        size_t path_len = token_len + command_len + 2;
         path = (char *)malloc(path_len);
         if (path == NULL) {
             perror("get_path: malloc error");
             free(path_copy);
             return NULL;
         }
+
+        size_t written = 0;
+        written += write(STDOUT_FILENO, token, token_len);
+        written += write(STDOUT_FILENO, "/", 1);
+        written += write(STDOUT_FILENO, command, command_len);
+        write(STDOUT_FILENO, "\0", 1);
+
+        if (access(path, X_OK) == 0) {
+            free(path_copy);
+            return path;
+        }
+
+        free(path);
+        token = strtok(NULL, ":");
+    }
+
+    free(path_copy);
+    return NULL;
+}
 
       
         size_t written = 0;
@@ -63,6 +80,7 @@ void execute_command(char **argv) {
 
         free(actual_command);
     }
+}
 
 int execute_builtin(char **args) {
     if (args[0] == NULL) {
@@ -85,7 +103,6 @@ int execute_builtin(char **args) {
 
         pid = fork();
         if (pid == 0) {
-            
             if (execvp(args[0], args) == -1) {
                 write(STDERR_FILENO, "hsh: command not found: ", 24);
                 write(STDERR_FILENO, args[0], strlen(args[0]));
@@ -95,12 +112,11 @@ int execute_builtin(char **args) {
         } else if (pid < 0) {
             perror("hsh");
         } else {
-            
             do {
-                status = 0;  
+                status = 0;
                 if (waitpid(pid, &status, WUNTRACED) == -1) {
                     perror("waitpid");
-                    status = -1; 
+                    status = -1;
                     break;
                 }
             } while (!WIFEXITED(status) && !WIFSIGNALED(status));
