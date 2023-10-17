@@ -33,25 +33,7 @@ char *get_path(char *command) {
 
         if (access(path, X_OK) == 0) {
             free(path_copy);
-            free(path);  
-            return path;
-        }
-
-        free(path);
-        token = strtok(NULL, ":");
-    }
-
-    free(path_copy);
-    return NULL;
-}
-
-        written = write(STDOUT_FILENO, token, token_len);
-        written += write(STDOUT_FILENO, "/", 1);
-        written += write(STDOUT_FILENO, command, command_len);
-        write(STDOUT_FILENO, "\0", 1);
-
-        if (access(path, X_OK) == 0) {
-            free(path_copy);
+            free(path);  // Free the allocated path before returning
             return path;
         }
 
@@ -82,6 +64,8 @@ void execute_command(char **argv) {
         free(actual_command);
     }
 }
+
+int execute_builtin(char **args) {
 
 int execute_builtin(char **args) {
 
