@@ -18,7 +18,7 @@ extern char **environ;
 
 void display_error(char *message);
 void display_prompt();
-ssize_t read_line(char **buffer, size_t *size);
+ssize_t read_line(char **buffer, size_t *size, FILE *stream);
 
 char *get_path(char *command);
 void execute_command(char **argv);
