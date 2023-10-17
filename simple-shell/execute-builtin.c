@@ -1,7 +1,5 @@
 #include "main.h"
 
-extern char **environ;
-
 char *get_path(char *command) {
     char *path = NULL;
     char *env_path = getenv("PATH");
@@ -11,6 +9,8 @@ char *get_path(char *command) {
 
     char *path_copy = strdup(env_path);
     char *token = strtok(path_copy, ":");
+    size_t written = 0;
+
     while (token != NULL) {
         size_t token_len = strlen(token);
         size_t command_len = strlen(command);
@@ -22,10 +22,9 @@ char *get_path(char *command) {
             return NULL;
         }
 
-        size_t written = 0;
-        written += write(STDOUT_FILENO, token, token_len);
-        written += write(STDOUT_FILENO, "/", 1);
-        written += write(STDOUT_FILENO, command, command_len);
+        written = write(STDOUT_FILENO, token, token_len);
+        written = write(STDOUT_FILENO, "/", 1);
+        written = write(STDOUT_FILENO, command, command_len);
         write(STDOUT_FILENO, "\0", 1);
 
         if (access(path, X_OK) == 0) {
@@ -39,27 +38,6 @@ char *get_path(char *command) {
 
     free(path_copy);
     return NULL;
-}
-
-      
-        size_t written = 0;
-        written += write(STDOUT_FILENO, token, token_len);
-        written += write(STDOUT_FILENO, "/", 1);
-        written += write(STDOUT_FILENO, command, command_len);
-        write(STDOUT_FILENO, "\0", 1);
-
-        
-        if (access(path, X_OK) == 0) {
-            free(path_copy);
-            return path;
-        }
-
-        free(path);
-        token = strtok(NULL, ":");
-    }
-
-    free(path_copy);
-    return NULL; 
 }
 
 void execute_command(char **argv) {

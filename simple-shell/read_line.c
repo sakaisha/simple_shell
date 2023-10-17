@@ -10,7 +10,8 @@ ssize_t read_line(char **buffer, size_t *size, FILE *stream) {
         }
     }
 
-    ssize_t read = getline(buffer, size, stream);
+    ssize_t read;
+    read = getline(buffer, size, stream);
 
     if (read == -1) {
         free(*buffer);
