@@ -1,4 +1,4 @@
-// main.h
+/* main.h */
 
 #ifndef MAIN_H
 #define MAIN_H
@@ -15,7 +15,6 @@
 
 extern char **environ;
 
-// Function declarations
 void display_error(char *message);
 void display_prompt();
 ssize_t read_line(char *buffer, size_t size);

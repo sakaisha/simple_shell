@@ -8,7 +8,7 @@ int main(int argc, char *argv[]) {
         while (1) {
             display_prompt();
             if (read_line(input, MAX_INPUT_SIZE) == -1) {
-                break; // End of file (Ctrl+D) detected
+                break; /* End of file (Ctrl+D) detected */
             }
 
             tokenize(input, tokens);

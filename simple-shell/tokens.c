@@ -9,5 +9,5 @@ void tokenize(char *input, char **tokens) {
         token = strtok(NULL, " \t\n\r");
     }
 
-    tokens[i] = NULL; // Null-terminate the array of tokens
+    tokens[i] = NULL; /* Null-terminate the array of tokens */
 }
