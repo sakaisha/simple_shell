@@ -19,7 +19,7 @@ void write_int(int num) {
 
 int execute_builtin(char **args) {
     if (args[0] == NULL) {
-        /* An empty command was entered */
+
         return 1;
     }
 
@@ -34,26 +34,39 @@ int execute_builtin(char **args) {
     } else if (strcmp(args[0], "environ") == 0) {
         return environ_builtin(args);
     } else {
-        /* External command */
+
+      
         pid_t pid, wpid;
         int status;
 
         pid = fork();
-        if (pid == 0) {
-            /* Child process */
-            /* Remaining code unchanged */
-        } else if (pid < 0) {
-            /* Fork error */
-            perror("hsh");
-        } else {
-            /* Parent process */
-            do {
-                wpid = waitpid(pid, &status, WUNTRACED);
-            } while (!WIFEXITED(status) && !WIFSIGNALED(status));
-        }
+if (pid == 0) {
+    
+    write(STDOUT_FILENO, "[", 1);
+    write_int(getpid());
+    write(STDOUT_FILENO, "] ", 2);
+    write_int(getppid()); 
+    write(STDOUT_FILENO, " ", 1);
+    write_int(getppid());
+    write(STDOUT_FILENO, "\n", 1);
 
-        return 0;
+
+    if (execvp(args[0], args) == -1) {
+        
+        write(STDERR_FILENO, "hsh: command not found: ", 24);
+        write(STDERR_FILENO, args[0], strlen(args[0]));
+        write(STDERR_FILENO, "\n", 1);
     }
 
-    return -1; /* Not a builtin command */
+    _exit(EXIT_FAILURE);
+} else if (pid < 0) {
+
+    perror("hsh");
+} else {
+
+    do {
+        wpid = waitpid(pid, &status, WUNTRACED);
+    } while (!WIFEXITED(status) && !WIFSIGNALED(status));
 }
+
+return 0;
