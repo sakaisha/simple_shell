@@ -2,13 +2,13 @@
 
 char *get_path(char *command) {
     char *path_copy = strdup(getenv("PATH"));
+    char *token;
+    size_t token_len, command_len, path_len;
+
     if (path_copy == NULL) {
         perror("get_path: strdup error");
         return NULL;
     }
-
-    char *token;
-    size_t token_len, command_len, path_len;
 
     token = strtok(path_copy, ":");
     while (1) {
@@ -21,13 +21,14 @@ char *get_path(char *command) {
         path_len = token_len + command_len + 2;
 
         char *path = (char *)malloc(path_len);
+        size_t written;
+
         if (path == NULL) {
             perror("get_path: malloc error");
             free(path_copy);
             return NULL;
         }
 
-        size_t written;
         written = write(STDOUT_FILENO, token, token_len);
         written += write(STDOUT_FILENO, "/", 1);
         written += write(STDOUT_FILENO, command, command_len);
