@@ -39,9 +39,9 @@ int echo_builtin(char **args) {
 }
 
 int environ_builtin(char **args) {
-    (void)args;
     extern char **environ;
-    for (char **env = environ; *env != NULL; env++) {
+    char **env = environ; 
+    for (; *env != NULL; env++) {
         write(STDOUT_FILENO, *env, strlen(*env));
         write(STDOUT_FILENO, "\n", 1);
     }
