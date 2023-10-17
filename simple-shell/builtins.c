@@ -1,4 +1,4 @@
-#include <main.h>
+#include "main.h"
 
 int cd_builtin(char **args) {
     if (args[1] == NULL) {
