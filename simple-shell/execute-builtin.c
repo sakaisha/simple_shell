@@ -8,7 +8,7 @@ char *get_path(char *command) {
     }
 
     char *token = strtok(path_copy, ":");
-    size_t token_len;
+    size_t token_len, command_len, path_len;
 
     while (1) {
         if (token == NULL) {
@@ -16,8 +16,8 @@ char *get_path(char *command) {
         }
 
         token_len = strlen(token);
-        size_t command_len = strlen(command);
-        size_t path_len = token_len + command_len + 2;
+        command_len = strlen(command);
+        path_len = token_len + command_len + 2;
 
         char *path = (char *)malloc(path_len);
         if (path == NULL) {
