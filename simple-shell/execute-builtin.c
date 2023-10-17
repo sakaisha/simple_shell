@@ -7,7 +7,8 @@ char *get_path(char *command) {
         return NULL;
     }
 
-    char *token = strtok(path_copy, ":");
+    char *token;
+    token = strtok(path_copy, ":");
 
     while (token != NULL) {
         size_t token_len = strlen(token);
