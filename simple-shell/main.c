@@ -1,3 +1,5 @@
+#include "main.h"
+
 int main(int argc, char *argv[]) {
     char *input = NULL;
     size_t len = 0;
@@ -23,6 +25,7 @@ int main(int argc, char *argv[]) {
         FILE *file = fopen(argv[1], "r");
         if (file == NULL) {
             perror("Error opening file");
+            free(input);  
             return EXIT_FAILURE;
         }
 
@@ -40,9 +43,10 @@ int main(int argc, char *argv[]) {
         fclose(file);
     } else {
         perror("Usage: hsh [file]");
+        free(input); 
         return EXIT_FAILURE;
     }
 
-    free(input);
+    free(input);  
     return EXIT_SUCCESS;
 }

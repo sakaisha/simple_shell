@@ -8,6 +8,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <stddef.h>
 
 #define MAX_INPUT_SIZE 1024
 #define MAX_TOKENS 100
