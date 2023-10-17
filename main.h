@@ -9,6 +9,8 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <stddef.h>
+#include <stdlib.h>
+#include <fcntl.h>
 
 #define MAX_INPUT_SIZE 1024
 #define MAX_TOKENS 100
@@ -32,9 +34,9 @@ int execute_builtin(char **args);
 
 void tokenize(char *input, char **tokens);
 
-/* my functions :) */
-size_t mystrlen(const char *str);
-char* mystrcpy(char *dest, const char *src);
-int mystrcmp(const char *str1, const char *str2);
+int string_length(char *string);
+void string_copy(char *dest, char *src);
+int string_compare(char *str1, char *str2);
+char *string_duplicate(char *string);
 
 #endif /* MAIN_H */

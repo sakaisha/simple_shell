@@ -22,7 +22,7 @@ int pwd_builtin(char **args) {
     (void)args;
     
     if (getcwd(cwd, sizeof(cwd)) != NULL) {
-        write(STDOUT_FILENO, cwd, strlen(cwd));
+        write(STDOUT_FILENO, cwd, string_length(cwd));
         write(STDOUT_FILENO, "\n", 1);
     } else {
         write(STDERR_FILENO, "pwd: error getting current directory\n", 36);
@@ -33,7 +33,7 @@ int pwd_builtin(char **args) {
 int echo_builtin(char **args) {
     int i = 1;
     while (args[i] != NULL) {
-        write(STDOUT_FILENO, args[i], strlen(args[i]));
+        write(STDOUT_FILENO, args[i], string_length(args[i]));
         write(STDOUT_FILENO, " ", 1);
         i++;
     }
@@ -47,7 +47,7 @@ int environ_builtin(char **args) {
     (void)args;
     
     for (env = environ; *env != NULL; env++) {
-        write(STDOUT_FILENO, *env, strlen(*env));
+        write(STDOUT_FILENO, *env, string_length(*env));
         write(STDOUT_FILENO, "\n", 1);
     }
     return 0;
