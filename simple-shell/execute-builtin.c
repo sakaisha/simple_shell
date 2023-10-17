@@ -17,6 +17,26 @@ void write_int(int num) {
     }
 }
 
+void execute_command(char **argv) {
+    char *command = NULL, *actual_command = NULL;
+
+    if (argv) {
+        command = argv[0];
+        actual_command = get_path(command);
+
+        if (actual_command == NULL) {
+            write(STDERR_FILENO, "execute_command: command not found\n", 35);
+            return;
+        }
+
+        if (execve(actual_command, argv, NULL) == -1) {
+            write(STDERR_FILENO, "execute_command: execve error\n", 30);
+        }
+
+        free(actual_command);
+    }
+}
+
 int execute_builtin(char **args) {
     if (args[0] == NULL) {
         return 1;

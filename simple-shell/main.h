@@ -17,9 +17,11 @@ extern char **environ;
 
 void display_error(char *message);
 void display_prompt();
-ssize_t read_line(char *buffer, size_t size);
+ssize_t read_line(char **buffer, size_t *size);
 
-int execute(char **args);
+char *get_path(char *command);
+void execute_command(char **argv);
+
 int cd_builtin(char **args);
 int exit_builtin(char **args);
 int pwd_builtin(char **args);

@@ -1,16 +1,16 @@
-#include "main.h"
-
 int main(int argc, char *argv[]) {
-    char input[MAX_INPUT_SIZE];
-    char *tokens[MAX_TOKENS];
+    char *input = NULL;
+    size_t len = 0;
+    ssize_t read;
 
     if (argc == 1) {
         while (1) {
             display_prompt();
-            if (read_line(input, MAX_INPUT_SIZE) == -1) {
+            if ((read = getline(&input, &len, stdin)) == -1) {
                 break; /* End of file (Ctrl+D) detected */
             }
 
+            char *tokens[MAX_TOKENS];
             tokenize(input, tokens);
 
             if (tokens[0] != NULL) {
@@ -26,7 +26,8 @@ int main(int argc, char *argv[]) {
             return EXIT_FAILURE;
         }
 
-        while (read_line(input, MAX_INPUT_SIZE) != -1) {
+        while ((read = getline(&input, &len, file)) != -1) {
+            char *tokens[MAX_TOKENS];
             tokenize(input, tokens);
 
             if (tokens[0] != NULL) {
@@ -42,5 +43,6 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
+    free(input);
     return EXIT_SUCCESS;
 }
