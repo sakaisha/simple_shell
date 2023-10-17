@@ -2,7 +2,7 @@
 
 ssize_t read_line(char **buffer, size_t *size, FILE *stream) {
     ssize_t read;
-    
+
     if (*buffer == NULL) {
         *size = MAX_INPUT_SIZE;
         *buffer = (char *)malloc(*size);
