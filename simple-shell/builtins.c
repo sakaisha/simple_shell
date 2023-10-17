@@ -17,6 +17,11 @@ int exit_builtin(char **args) {
 }
 
 int pwd_builtin(char **args) {
+    if (args[1] != NULL) {
+        write(STDERR_FILENO, "pwd: too many arguments\n", 24);
+        return 1;
+    }
+
     char cwd[MAX_INPUT_SIZE];
     if (getcwd(cwd, sizeof(cwd)) != NULL) {
         write(STDOUT_FILENO, cwd, strlen(cwd));
@@ -39,9 +44,13 @@ int echo_builtin(char **args) {
 }
 
 int environ_builtin(char **args) {
+    if (args[1] != NULL) {
+        write(STDERR_FILENO, "environ: too many arguments\n", 29);
+        return 1;
+    }
+
     extern char **environ;
-    char **env = environ; 
-    for (; *env != NULL; env++) {
+    for (char **env = environ; *env != NULL; env++) {
         write(STDOUT_FILENO, *env, strlen(*env));
         write(STDOUT_FILENO, "\n", 1);
     }
