@@ -2,10 +2,10 @@
 
 int cd_builtin(char **args) {
     if (args[1] == NULL) {
-        write(STDERR_FILENO, "cd: missing argument\n", 21);
+        perror("cd: missing argument");
     } else {
         if (chdir(args[1]) != 0) {
-            write(STDERR_FILENO, "cd: cannot change directory\n", 28);
+            perror("cd: cannot change directory");
         }
     }
     return 0;

@@ -15,14 +15,14 @@ int main(int argc, char *argv[]) {
 
             if (tokens[0] != NULL) {
                 if (execute_builtin(tokens) == -1) {
-                    display_error("Execution failed");
+                    perror("Execution failed");
                 }
             }
         }
     } else if (argc == 2) {
         FILE *file = fopen(argv[1], "r");
         if (file == NULL) {
-            display_error("Error opening file");
+            perror("Error opening file");
             return EXIT_FAILURE;
         }
 
@@ -31,14 +31,14 @@ int main(int argc, char *argv[]) {
 
             if (tokens[0] != NULL) {
                 if (execute_builtin(tokens) == -1) {
-                    display_error("Execution failed");
+                    perror("Execution failed");
                 }
             }
         }
 
         fclose(file);
     } else {
-        display_error("Usage: hsh [file]");
+        perror("Usage: hsh [file]");
         return EXIT_FAILURE;
     }
 

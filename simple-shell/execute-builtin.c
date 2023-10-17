@@ -34,6 +34,7 @@ int execute_builtin(char **args) {
     } else if (strcmp(args[0], "environ") == 0) {
         return environ_builtin(args);
     } else {
+
         // External command
         pid_t pid, wpid;
         int status;
@@ -59,7 +60,7 @@ int execute_builtin(char **args) {
 
             // If execvp fails, exit the child process with failure status
             _exit(EXIT_FAILURE);
-        } else if (pid < 0) {
+         } else if (pid < 0) {
             // Fork error
             perror("hsh");
         } else {
