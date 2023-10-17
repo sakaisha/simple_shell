@@ -14,7 +14,7 @@ int main(int argc, char *argv[]) {
             tokenize(input, tokens);
 
             if (tokens[0] != NULL) {
-                if (execute(tokens) == -1) {
+                if (execute_builtin(tokens) == -1) {
                     display_error("Execution failed");
                 }
             }
@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
             tokenize(input, tokens);
 
             if (tokens[0] != NULL) {
-                if (execute(tokens) == -1) {
+                if (execute_builtin(tokens) == -1) {
                     display_error("Execution failed");
                 }
             }
