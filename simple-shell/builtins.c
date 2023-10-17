@@ -39,12 +39,12 @@ int echo_builtin(char **args) {
 }
 
 int environ_builtin(char **args) {
-    char **env = environ;
-    while (*env != NULL) {
+    extern char **environ;
+    for (char **env = environ; *env != NULL; env++) {
         write(STDOUT_FILENO, *env, strlen(*env));
         write(STDOUT_FILENO, "\n", 1);
-        env++;
     }
     return 0;
+
 }
 
