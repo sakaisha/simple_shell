@@ -16,9 +16,11 @@ int exit_builtin(char **args) {
     _exit(0);
 }
 
+#include "main.h"
+
 int pwd_builtin(char **args) {
-    (void)args; 
     char cwd[MAX_INPUT_SIZE];
+
     if (getcwd(cwd, sizeof(cwd)) != NULL) {
         write(STDOUT_FILENO, cwd, strlen(cwd));
         write(STDOUT_FILENO, "\n", 1);
@@ -40,7 +42,6 @@ int echo_builtin(char **args) {
 }
 
 int environ_builtin(char **args) {
-    (void)args; 
     char **env;
     for (env = environ; *env != NULL; env++) {
         write(STDOUT_FILENO, *env, strlen(*env));
@@ -48,5 +49,6 @@ int environ_builtin(char **args) {
     }
     return 0;
 }
+
 
 
