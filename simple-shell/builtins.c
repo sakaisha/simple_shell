@@ -16,11 +16,11 @@ int exit_builtin(char **args) {
     _exit(0);
 }
 
-
 int pwd_builtin(char **args) {
-    (void)args;
-    char cwd[MAX_INPUT_SIZE];
+    char cwd[MAX_INPUT_SIZE]; 
 
+    (void)args;
+    
     if (getcwd(cwd, sizeof(cwd)) != NULL) {
         write(STDOUT_FILENO, cwd, strlen(cwd));
         write(STDOUT_FILENO, "\n", 1);
@@ -42,14 +42,13 @@ int echo_builtin(char **args) {
 }
 
 int environ_builtin(char **args) {
-    (void)args;
     char **env;
+
+    (void)args;
+    
     for (env = environ; *env != NULL; env++) {
         write(STDOUT_FILENO, *env, strlen(*env));
         write(STDOUT_FILENO, "\n", 1);
     }
     return 0;
 }
-
-
-
