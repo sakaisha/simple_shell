@@ -1,38 +1,40 @@
-// main.h
+/* main.h */
 
 #ifndef MAIN_H
 #define MAIN_H
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
 #include <string.h>
+#include <unistd.h>
+#include <sys/wait.h>
+#include <stddef.h>
 
-#define BUFF_SIZE 1024
-#define MAX_ARGS 64
+#define MAX_INPUT_SIZE 1024
+#define MAX_TOKENS 100
+#define MAX_TOKEN_SIZE 64
 
 extern char **environ;
 
-void executeCommand(char *command);
-void setup_signal_handlers(void);
-void handle_malloc_error(void);
-void handle_getline_error(void);
-void handle_fork_error(void);
-void handle_execve_error(char *cmd);
-void handle_command_not_found(char *cmd);
-int is_valid_command(char *cmd);
-void print_not_found_error(char *program, char *cmd, int count);
-void print_permission_error(char *program, char *cmd, int count);
-int custom_strlen(char *str);  // Include the custom_strlen function
+void display_error(char *message);
+void display_prompt();
+ssize_t read_line(char **buffer, size_t *size, FILE *stream);
 
-char *_getenv(const char *name);
-void _setenv(const char *name, const char *value, int overwrite);
-void _unsetenv(const char *name);
+char *get_path(char *command);
+void execute_command(char **argv);
 
-void printPathDirectories(void);
+int cd_builtin(char **args);
+int exit_builtin(char **args);
+int pwd_builtin(char **args);
+int echo_builtin(char **args);
+int environ_builtin(char **args);
+int execute_builtin(char **args);
 
-char **splitString(char *str, int *argc);
+void tokenize(char *input, char **tokens);
 
-#endif // MAIN_H
+/* my functions :) */
+size_t mystrlen(const char *str);
+char* mystrcpy(char *dest, const char *src);
+int mystrcmp(const char *str1, const char *str2);
+
+#endif /* MAIN_H */

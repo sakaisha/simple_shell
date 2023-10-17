@@ -1,65 +1,83 @@
 #include "main.h"
+#include <unistd.h>
+
+void display_prompt(void) {
+    const char prompt[] = "$ ";
+    write(STDOUT_FILENO, prompt, sizeof(prompt) - 1);
+}
+
+size_t mystrlen(const char *str) {
+    size_t len = 0;
+    while (str[len] != '\0') {
+        len++;
+    }
+    return len;
+}
+
+char* mystrcpy(char *dest, const char *src) {
+    char *original_dest = dest;
+
+    while ((*dest++ = *src++) != '\0') {
+        
+    }
+
+    return original_dest;
+}
+
+int mystrcmp(const char *str1, const char *str2) {
+    while (*str1 != '\0' && *str2 != '\0' && *str1 == *str2) {
+        str1++;
+        str2++;
+    }
+
+    return (*str1 - *str2);
+}
 
 int main(int argc, char *argv[]) {
-char *command = NULL;
-size_t len = 0;
-ssize_t read_bytes;
+    char *input = NULL;
+    size_t len = 0;
+    ssize_t read;
 
-setup_signal_handlers();
+    if (argc == 1 || (argc == 2 && mystrcmp(argv[1], "-c") == 0)) {
+        while (1) {
+            char *tokens[MAX_TOKENS];
+            display_prompt();
+            if ((read = read_line(&input, &len, stdin)) == -1) {
+                break; /* End of file (Ctrl+D) detected */
+            }
 
-while (1) {
-write(1, "> ", 2);
+            tokenize(input, tokens);
 
-command = (char *)malloc(BUFF_SIZE);
-if (command == NULL) {
-handle_malloc_error();
-}
+            if (tokens[0] != NULL) {
+                if (execute_builtin(tokens) == -1) {
+                    perror("Error: :( Failed to execute built-in command");
+                }
+            }
+        }
+    } else if (argc == 2 && mystrcmp(argv[1], "-c") != 0) {
+        int file = open(argv[1], O_RDONLY);
+        if (file == -1) {
+            perror("Error: :( Unable to open the specified file");
+            return EXIT_FAILURE;
+        }
 
-read_bytes = getline(&command, &len, stdin);
+        while ((read = read_line(&input, &len, file)) != -1) {
+            char *tokens[MAX_TOKENS];
+            tokenize(input, tokens);
 
-if (read_bytes == 0) {
-free(command);
-break;
-}
+            if (tokens[0] != NULL) {
+                if (execute_builtin(tokens) == -1) {
+                    perror("Error: Failed to execute built-in command");
+                }
+            }
+        }
 
-if (read_bytes == -1) {
-if (feof(stdin)) {
-free(command);
-break;
-} else if (ferror(stdin)) {
-handle_getline_error();
-free(command);
-continue;
-}
-}
+        close(file);
+    } else {
+        perror("Usage: hsh [-c command | script-file]");
+        return EXIT_FAILURE;
+    }
 
-if (command[read_bytes - 1] == '\n') {
-command[read_bytes - 1] = '\0';
-}
-
-if (strcmp(command, "exit") == 0) {
-free(command);
-break;
-}
-
-pid_t pid = fork();
-
-if (pid == -1) {
-handle_fork_error();
-} else if (pid == 0) { 
-executeCommand(command);
-free(command);
-_exit(EXIT_SUCCESS);
-} else { 
-wait(NULL);
-}
-
-if (!is_valid_command(command)) {
-handle_command_not_found(command);
-}
-
-free(command);
-}
-
-return 0;
+    free(input);
+    return EXIT_SUCCESS;
 }
