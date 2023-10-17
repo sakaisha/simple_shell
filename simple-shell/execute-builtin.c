@@ -7,8 +7,8 @@ char *get_path(char *command) {
         return NULL;
     }
 
-    char *token;
-    token = strtok(path_copy, ":");
+    char *token = strtok(path_copy, ":");
+    size_t written;
 
     while (token != NULL) {
         size_t token_len = strlen(token);
@@ -22,8 +22,7 @@ char *get_path(char *command) {
             return NULL;
         }
 
-        size_t written = 0;
-        written += write(STDOUT_FILENO, token, token_len);
+        written = write(STDOUT_FILENO, token, token_len);
         written += write(STDOUT_FILENO, "/", 1);
         written += write(STDOUT_FILENO, command, command_len);
         write(STDOUT_FILENO, "\0", 1);
