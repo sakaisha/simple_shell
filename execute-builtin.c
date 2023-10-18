@@ -83,7 +83,7 @@ int execute_builtin(char **args) {
         return pwd_builtin(args);
     } else if (string_compare(args[0], "echo") == 0) {
         return echo_builtin(args);
-        if (string_compare(args[0], "env") == 0) {
+    } else if (string_compare(args[0], "env") == 0) {
         return env_builtin(args);
     } else if (string_compare(args[0], "getenv") == 0) {
         getenv_builtin(args);
