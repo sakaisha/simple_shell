@@ -1,5 +1,5 @@
-#ifndef main.h
-#define main.h
+#ifndef MAIN_H
+#define MAIN_H
 
 #include <string.h>
 #include <stdio.h>
@@ -13,7 +13,7 @@
 #include <signal.h>
 
 /* String printing */
-int putchar(char c);
+int _putchar(char c);
 int _strlen(char *s);
 void print_number(int count);
 
