@@ -1,14 +1,5 @@
 #include "main.h"
 
-/**
- * _getenv - Entry point
- * Description: Get the value of environment
- * @env: The environment variable
- * @name: Name of environment
- * 
- * Return: String of value of environment.
- */
-
 char *_getenv(char **env, const char *name)
 {
 	int i;
@@ -30,17 +21,6 @@ char *_getenv(char **env, const char *name)
 	}
 	return (NULL);
 }
-
-/**
- * _setenv - Entry point
- * Description: Get the value of environment
- * @env: The environment variable
- * @name: Name of environment
- * @value: String of the value
- * @overwrite: Determines when to overwrite
- * 
- * Return: String of value of environment
- */
 
 int _setenv(char **env, const char *name, const char *value, int overwrite)
 {
@@ -69,18 +49,6 @@ int _setenv(char **env, const char *name, const char *value, int overwrite)
 	}
 	return (0);
 }
-
-/**
- * builtin_check - Entry point
- * Description: Checks if the command is a built-in
- * @av: Arguments
- * @prev_directory: The previous directory
- * @env: The environment variable
- * @name: The name of the program
- * @loop_count: count of times the loop has been executed
- * 
- * Return: 0 if nothing found. 1 if found. 2 if built-in.
- */
 
 int builtin_check(char **av, char *prev_directory, char **env, char *name, int loop_count)
 {
@@ -118,16 +86,6 @@ int builtin_check(char **av, char *prev_directory, char **env, char *name, int l
 	return (0);
 }
 
-/**
- * check_argv - Entry point
- * Description: Checks if the command exists in PATH
- * @av_0: The name of the command
- * @actual_command: The full path of the command
- * @env: The environment variable
- * 
- * Return: 0 if nothing found.
- */
-
 int check_argv(char *av_0, char *actual_command, char **env)
 {
 	int i, j; 
@@ -162,18 +120,6 @@ int check_argv(char *av_0, char *actual_command, char **env)
 	
 	return (0);
 }
-
-/**
- * change_directory - Entry point
- * @av_2: The second argument
- * @current_path: The current directory
- * @env: The enviornment variable
- * @name: The name of the program
- * @loops_count: The count of loops
- * @av: The argument string
- * 
- * Return: Returns a pointer to the updated directory.
- */
 
 int change_directory(char *av_2, char *current_path, char **env, char *name, int loops_count, char **av)
 {

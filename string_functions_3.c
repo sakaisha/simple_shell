@@ -1,11 +1,5 @@
 #include "main.h"
 
-/**
- * string_length - Entry point
- * @str: Source string
- *
- * Return: The length of the string
- */
 int string_length(char *str)
 {
 	int i;
@@ -16,27 +10,10 @@ int string_length(char *str)
 	return (i);
 }
 
-/**
- * _putchar - Entry point
- * @c: The character to print
- *
- * Return: 1 on success, -1 on error
- */
 int _putchar(char c)
 {
 	return (write(STDERR_FILENO, &c, 1));
 }
-
-
-/**
- * split_string - Entry point
- * Description: Splits a string into substrings
- * @buffer: Source string
- * @str_array: Array of substrings
- * @n: Number of characters read
- * 
- * Return: Returns the number of characters counted, - NULL.
- */
 
 int split_string(char *buffer, char **str_array, int n)
 {

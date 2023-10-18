@@ -1,13 +1,5 @@
 #include "main.h"
 
-/**
- * _memset - Entry point
- * Description: Fills memory with a number of bytes
- * @mem: pointer to the memory area
- * @value: value to be filled
- * @n: number of bytes to be filled
- * Return: pointer to the memory area s.
- */
 char *_memset(char *mem, char value, unsigned int n)
 {
 	unsigned int i;
@@ -16,14 +8,6 @@ char *_memset(char *mem, char value, unsigned int n)
 		*(mem + i) = value;
 	return (mem);
 }
-
-/**
- * remove_spaces - Entry point
- * Description: Removes spaces from a string
- * @str: Source string.
- * 
- * Return: None.
- */
 
 int remove_spaces(char *str)
 {
@@ -51,15 +35,6 @@ int remove_spaces(char *str)
 	return (count);
 }
 
-/**
- * _strcat - Entry point
- * Description: Concatenates two strings
- * @dest: The destination string
- * @src: The source string
- * 
- * Return: A pointer to dest
- */
-
 char *_strcat(char *dest, char *src)
 {
 	int i,j;
@@ -84,14 +59,6 @@ char *_strcat(char *dest, char *src)
     }
 	return (dest);
 }
-
-/**
- * SIGINTfunction - Entry point
- * Description: Ignore Ctrl C.
- * @sig_int: The signal number
- * 
- * Return: Nothing.
- */
 
 void SIGINTfunction(int sig_int)
 {

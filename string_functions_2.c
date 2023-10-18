@@ -1,14 +1,5 @@
 #include "main.h"
 
-/**
- * _strcmp - Entry point
- * Description: Compares two strings
- * @str_1: String 1
- * @str_2: String 2
- * 
- * Return: -1 if str_1 < str_2, 0 if str_1 == str_2, 1 if str_1 > str_2
- */
-
 int _strcmp(char *str_1, char *str_2)
 {
 	int i;
@@ -24,14 +15,6 @@ int _strcmp(char *str_1, char *str_2)
 		return (*(str_2+i) * -1);
 	return (0);
 }
-
-/**
- * print_num - Entry point
- * Description: Prints a number
- * @num: Number to be printed
- * 
- * Return: None.
- */
 
 void print_num(int num)
 {
@@ -49,15 +32,6 @@ void print_num(int num)
 		max_num /= 10;
 	}
 }
-
-/**
- * _strcpy - Entry point
- * Description: copy a string to another string.
- * @dest: Destination string
- * @src: Source string
- * 
- * Return: Pointer to the destination string
- */
 
 char *_strcpy(char *dest, char *src)
 {

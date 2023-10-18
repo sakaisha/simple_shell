@@ -1,15 +1,5 @@
 #include "main.h"
 
-/**
- * main - Entry point
- * Description: This is the main function. It handles the simple shell.
- * @argc: The number of arguments
- * @argv: the arguments
- * @env: The enviornment
- * 
- * Return: always 0
- */
-
 int main(int argc, char **argv, char **env)
 {
 	char prev_directory[250];
