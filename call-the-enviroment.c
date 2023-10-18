@@ -30,3 +30,21 @@ void print_env(void) {
         i++;
     }
 }
+
+char *getenv_builtin(char **args) {
+    if (args[1] == NULL) {
+        write(STDERR_FILENO, "getenv: missing argument\n", 25);
+        return NULL;
+    }
+
+    char *value = getenv(args[1]);
+
+    if (value == NULL) {
+        write(STDERR_FILENO, "getenv: variable not found\n", 28);
+    } else {
+        write(STDOUT_FILENO, value, string_length(value));
+        write(STDOUT_FILENO, "\n", 1);
+    }
+
+    return value;
+}

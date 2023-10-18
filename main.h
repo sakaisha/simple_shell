@@ -20,6 +20,7 @@ extern char **environ;
 
 char *find_env_var(char *var);
 void print_env(void);
+char *getenv_builtin(char **args);
 
 void display_error(char *message);
 void display_prompt();

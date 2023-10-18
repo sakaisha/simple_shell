@@ -84,10 +84,14 @@ int execute_builtin(char **args) {
     } else if (string_compare(args[0], "echo") == 0) {
         return echo_builtin(args);
     } else if (string_compare(args[0], "env") == 0) {
-    print_env();
-    return 0;
+        print_env();
+        return 0;
+    } else if (string_compare(args[0], "getenv") == 0) {
+        getenv_builtin(args);
+        return 0;
     } else {
-        
+
+
         pid_t pid;
         int status;
 
