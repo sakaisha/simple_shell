@@ -40,7 +40,7 @@ int env_builtin(char **args) {
         i++;
     }
 
-    return 0;  // Indicate success
+    return 0;  
 }
 
 char *getenv_builtin(char **args) {
