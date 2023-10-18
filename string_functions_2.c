@@ -18,19 +18,25 @@ int _strcmp(char *str_1, char *str_2)
 
 void print_num(int num)
 {
-	int n = num;
-	int tmp = 0;
-	int max_num = 1000000000;
+    int divisor = 1;
 
-	while ((n/max_num) == 0)
-		max_num /= 10;
-	while (max_num > 0)
-	{
-		tmp = n/max_num;
-		n = n%max_num;
-		_putchar(tmp + '0');
-		max_num /= 10;
-	}
+    if (num == 0) {
+        _putchar('0');
+        return;
+    }
+    if (num < 0) {
+        _putchar('-');
+        num = -num;
+    }
+    while (num / divisor >= 10) {
+        divisor *= 10;
+    }
+
+    while (divisor != 0) {
+        _putchar(num / divisor + '0');
+        num %= divisor;
+        divisor /= 10;
+    }
 }
 
 char *_strcpy(char *dest, char *src)
