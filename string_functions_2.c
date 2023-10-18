@@ -26,29 +26,6 @@ int _strcmp(char *str_1, char *str_2)
 }
 
 /**
- * _stoi - Entry point
- * Description: Converts strings to integers
- * @str: String to be converted
- * 
- * Return: -1 if str is not a number, otherwise the number
- */
-
-long _stoi(char *str)
-{
-	long n = 0;
-	long i = 0;
-
-	while(str[i]!='\0')
-	{
-		if ((str[i]<'0') || (str[i]>'9'))
-			return (-1);
-		n = n * 10 + (str[i]-'0');
-		i++;
-	}
-	return (n);
-}
-
-/**
  * print_num - Entry point
  * Description: Prints a number
  * @num: Number to be printed

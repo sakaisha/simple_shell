@@ -8,7 +8,6 @@
 #include <signal.h>
 #include <unistd.h>
 
-/* execute fucntion */
 int execute(char *buf, int rd, char *name, char *p_cwd, int ct, char **env);
 
 /* string functions */
@@ -17,7 +16,6 @@ int remove_spaces(char *str);
 char *_strcat(char *dest, char *src);
 void SIGINTfunction(int sig_num);
 int _strcmp(char *s1, char *s2);
-long _stoi(char *s);
 void print_num(int count);
 char *_strcpy(char *dest, char *src);
 int string_length(char *s);
