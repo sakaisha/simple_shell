@@ -18,6 +18,9 @@
 
 extern char **environ;
 
+char *find_env_var(char *var);
+void print_env(void);
+
 void display_error(char *message);
 void display_prompt();
 ssize_t read_line(char **buffer, size_t *size, FILE *stream);
@@ -29,7 +32,6 @@ int cd_builtin(char **args);
 int exit_builtin(char **args);
 int pwd_builtin(char **args);
 int echo_builtin(char **args);
-int environ_builtin(char **args);
 int execute_builtin(char **args);
 
 void tokenize(char *input, char **tokens);

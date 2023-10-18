@@ -40,15 +40,3 @@ int echo_builtin(char **args) {
     write(STDOUT_FILENO, "\n", 1);
     return 0;
 }
-
-int environ_builtin(char **args) {
-    char **env;
-
-    (void)args;
-    
-    for (env = environ; *env != NULL; env++) {
-        write(STDOUT_FILENO, *env, string_length(*env));
-        write(STDOUT_FILENO, "\n", 1);
-    }
-    return 0;
-}
