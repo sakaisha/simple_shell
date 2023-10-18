@@ -37,7 +37,14 @@ char *getenv_builtin(char **args) {
         return NULL;
     }
 
-    char *value = getenv(args[1]);
+char *getenv_builtin(char **args) {
+    if (args[1] == NULL) {
+        write(STDERR_FILENO, "getenv: missing argument\n", 25);
+        return NULL;
+    }
+
+    char *value;
+    value = getenv(args[1]);
 
     if (value == NULL) {
         write(STDERR_FILENO, "getenv: variable not found\n", 28);
