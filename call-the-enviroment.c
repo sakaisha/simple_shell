@@ -37,12 +37,6 @@ char *getenv_builtin(char **args) {
         return NULL;
     }
 
-char *getenv_builtin(char **args) {
-    if (args[1] == NULL) {
-        write(STDERR_FILENO, "getenv: missing argument\n", 25);
-        return NULL;
-    }
-
     char *value;
     value = getenv(args[1]);
 
