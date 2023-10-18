@@ -84,7 +84,7 @@ int execute_builtin(char **args) {
     } else if (string_compare(args[0], "echo") == 0) {
         return echo_builtin(args);
     } else if (string_compare(args[0], "env") == 0) {
-        return env_builtin(args);
+        return env_builtin();
     } else if (string_compare(args[0], "getenv") == 0) {
         getenv_builtin(args);
         return 0;
