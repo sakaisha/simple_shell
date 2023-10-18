@@ -31,8 +31,21 @@ void print_env(void) {
     }
 }
 
+int env_builtin(char **args) {
+    int i = 0;
+
+    while (environ[i]) {
+        write(STDOUT_FILENO, environ[i], string_length(environ[i]));
+        write(STDOUT_FILENO, "\n", 1);
+        i++;
+    }
+
+    return 0;  // Indicate success
+}
+
 char *getenv_builtin(char **args) {
     char *value;  
+
 
     if (args[1] == NULL) {
         write(STDERR_FILENO, "getenv: missing argument\n", 25);
