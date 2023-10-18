@@ -1,86 +1,59 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <string.h>
+#include "main.h"
 
-#define MAX_COMMAND_LENGTH 100
+/**
+ * main - Entry point
+ * Description: Entry point for our shell. Prompts user for input and decides
+ * how to handle the incoming commands.
+ * @argc: The count of arguments passed.
+ * @argv: The arguments passed.
+ * @env: Gets the environment.
+ * Return: 0 upon successful completion.
+ */
 
-void display_prompt(void) {
-    const char prompt[] = "$ ";
-    write(STDOUT_FILENO, prompt, sizeof(prompt) - 1);
-}
+int main(int argc, char **argv, char **env)
+{
+    char *buffer = NULL, prev_directory[200];
+    int rd = 0, ct = 0, result = 0; 
+    size_t size = 0;
+    int i = 0, status = 1, check;
+    char *name = argv[0];
 
-char* string_token(char* str, const char* delim) {
-    static char* save_ptr;
-    char* token;
-    if (str != NULL) {
-        save_ptr = str;
-    } else {
-        if (save_ptr == NULL || *save_ptr == '\0') {
-            return NULL;
-        }
-    }
-    while (*save_ptr != '\0' && strchr(delim, *save_ptr) != NULL) {
-        save_ptr++;
-    }
-    if (*save_ptr == '\0') {
-        return NULL;
-    }
-    token = save_ptr;
-    while (*save_ptr != '\0' && strchr(delim, *save_ptr) == NULL) {
-        save_ptr++;
-    }
-    if (*save_ptr != '\0') {
-        *save_ptr = '\0';
-        save_ptr++;
-    }
-    return token;
-}
+    (void)argc;
+    _memset(prev_directory, 0, 200);
+    _strcpy(prev_directory, _getenv(env, "PWD"));
+    signal(SIGINT, handle_sigint);
 
-void executeCommand(char *command) {
-    pid_t pid = fork();
-    char *envp[] = {NULL}; 
-    if (pid == -1) {
-        perror("fork");
-        exit(EXIT_FAILURE);
-    } else if (pid == 0) { 
-        char *args[MAX_COMMAND_LENGTH];
-        char *token = string_token(command, " \t\n");
-        int i = 0;
-        while (token != NULL) {
-            args[i++] = token;
-            token = string_token(NULL, " \t\n");
+    while (status)
+    {
+        ct++;
+        check = 0;
+        if (isatty(0) == 1)
+            write(STDOUT_FILENO, "$ ", 2);
+        rd = getline(&buffer, &size, stdin);
+        for (i = 0; buffer[i] != '\0'; i++)
+        {
+            if (buffer[i] == ' ' || buffer[i] == '\t')
+                check++;
         }
-        args[i] = NULL;
-        if (execve(args[0], args, envp) == -1) {
-            perror("hsh");
-            exit(EXIT_FAILURE);
+        if (rd == 1 || rd == check + 1)
+            continue;
+        else if (rd == -1)
+        {
+            status = 0;
+            if (result == 2) 
+            {
+                if (buffer)
+                    free(buffer);
+                write(1, "\n", 1);
+                exit(2);
+            }
         }
-    } else { 
-        int status;
-        if (waitpid(pid, &status, 0) == -1) {
-            perror("waitpid");
-            exit(EXIT_FAILURE);
-        }
+        else
+            result = execute_program(buffer, rd, name, prev_directory, ct, env); 
     }
-}
-
-int main() {
-    char command[MAX_COMMAND_LENGTH];
-    while (1) {
-        display_prompt();
-        if (fgets(command, sizeof(command), stdin) == NULL) {
-            perror("fgets");
-            exit(EXIT_FAILURE);
-        }
-        command[strcspn(command, "\n")] = '\0';
-        if (strcmp(command, "exit") == 0) {
-            printf("Exiting the shell.\n");
-            break;
-        }
-        executeCommand(command);
-    }
+    if (buffer)
+        free(buffer);
+    if (isatty(0) == 1)
+        write(1, "\n", 1);
     return 0;
 }
