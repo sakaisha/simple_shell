@@ -34,7 +34,7 @@ int exit_builtin(char **args);
 int pwd_builtin(char **args);
 int echo_builtin(char **args);
 int execute_builtin(char **args);
-int env_builtin(char **args);
+int env_builtin(void);
 
 void tokenize(char *input, char **tokens);
 

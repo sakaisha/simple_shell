@@ -31,7 +31,7 @@ void print_env(void) {
     }
 }
 
-int env_builtin(char **args) {
+int env_builtin(void) {
     int i = 0;
 
     while (environ[i]) {
