@@ -1,4 +1,5 @@
 #include "main.h"
+#define BUFFER_SIZE 250
 
 /**
  * main - Entry point for the shell program
@@ -9,7 +10,7 @@
  */
 int main(int argc, char **argv, char **env)
 {
-	char dir[250];
+	char dir[BUFFER_SIZE];
 	char *buff = NULL;
 	size_t size;
 	ssize_t line_st;
@@ -17,9 +18,7 @@ int main(int argc, char **argv, char **env)
 	int spaces;
 	int i;
 	char *name;
-	int execute_return;
 
-	execute_return = 1;
 	i = 0;
 	size = 0;
 	line_st = 0;
@@ -27,52 +26,49 @@ int main(int argc, char **argv, char **env)
 	spaces = 0;
 	name = argv[0];
 	(void) argc;
-	_memset(dir, 0, 250);
+	_memset(dir, 0, BUFFER_SIZE);
 	_strcpy(dir, _getenv(env, "PWD"));
 	signal(2, SIGINTfunction);
 
 	while (1)
 	{
-		if (execute_return != -1)
+		if (isatty(0) == 1)
+			write(1, ":)  ", 3);
+		spaces = 0;
+
+		line_st = getline(&buff, &size, stdin);
+		count++;
+
+		if (line_st == 1)
+			continue;
+
+		while (buff[i] != '\0')
 		{
-			if (isatty(0) == 1)
-				write(1, ":)  ", 3);
-			spaces = 0;
-
-			line_st = getline(&buff, &size, stdin);
-			count++;
-
-			if (line_st == 1)
-				continue;
-
-			while (buff[i] != '\0')
-			{
-				if (buff[i] == '\n')
-					spaces++;
-				else if (buff[i] == '\r')
-					spaces++;
-				else if (buff[i] == '\t')
-					spaces++;
-				else if (buff[i] == ' ')
-					spaces++;
-				i = i + 1;
-			}
-
-			if ((line_st == -1) && (spaces == 2))
-			{
-				if (buff)
-					free(buff);
-				write(1, "\n", 1);
-				exit(2);
-				break;
-			}
-			else if ((line_st == -1) && (spaces != 2))
-			{
-				break;
-			}
-			else
-				execute_return = execute(buff, line_st, name, count, env);
+			if (buff[i] == '\n')
+				spaces++;
+			else if (buff[i] == '\r')
+				spaces++;
+			else if (buff[i] == '\t')
+				spaces++;
+			else if (buff[i] == ' ')
+				spaces++;
+			i = i + 1;
 		}
+
+		if ((line_st == -1) && (spaces == 2))
+		{
+			if (buff)
+				free(buff);
+			write(1, "\n", 1);
+			exit(2);
+			break;
+		}
+		else if ((line_st == -1) && (spaces != 2))
+		{
+			break;
+		}
+		else
+			spaces = execute(buff, line_st, name, count, env);
 	}
 	if (buff)
 		free(buff);
@@ -94,12 +90,12 @@ int execute(char *buff, int line_st, char *name, int loops_count, char **env)
 {
 	pid_t child_pid;
 	char **av = NULL;
-	char func[200] = {'\0'};
+	char func[BUFFER_SIZE] = {'\0'};
 	int result;
 	int n = remove_spaces(buff);
 
 	if (buff[0] == '\0')
-		return (1);
+		return (0);
 
 	if (line_st == -1)
 		return (1);
@@ -114,9 +110,15 @@ int execute(char *buff, int line_st, char *name, int loops_count, char **env)
 	result = builtin_check(av, env);
 
 	if (result == 1)
+	{
+		free(av);
 		return (0);
+	}
 	else if (result == 2)
+	{
+		free(av);
 		return (2);
+	}
 
 	_strcpy(func, av[0]);
 
@@ -129,6 +131,7 @@ int execute(char *buff, int line_st, char *name, int loops_count, char **env)
 		write(2, av[0], string_length(av[0]));
 		write(2, ": ", 2);
 		write(2, "not found\n", 10);
+		free(av);
 		return (127);
 	}
 
