@@ -15,25 +15,39 @@ int _putchar(char c)
 	return (write(STDERR_FILENO, &c, 1));
 }
 
-int split_string(char *buffer, char **str_array, int n)
+int split_string(char *str, char **str_array, int n)
 {
-	int i, j, k;
+	int i, count1, count2;
 
 	i = 0;
-	j = 0;
-	k = 0;
-	for (i = 0; i <= n; i++)
+	count1 = 0;
+	count2 = 0;
+	while (i <= n)
 	{
-		if (buffer[i] == ' ' || buffer[i] == '\n')
+		if (str[i] == ' ')
 		{
-			buffer[i] = '\0';
-			str_array[k] = &buffer[j];
-			j = i + 1;
-			k = k + 1;
+			str[i] = '\0';
+			str_array[count2] = &str[count1];
+			count1 = i + 1;
+			count2 = count2 + 1;
+			i++;
 		}
+		else if (str[i] == '\n')
+		{
+			str[i] = '\0';
+			str_array[count2] = &str[count1];
+			count1 = i + 1;
+			count2 = count2 + 1;
+			i++;
+		}
+		else
+			i++;
 	}
-	if (k == 0)
-		str_array[k++] = &buffer[j];
-	str_array[k] = NULL;
-	return (k);
+	if (count2 == 0)
+		str_array[count2++] = &str[count1];
+	str_array[count2] = NULL;
+	return (count2);
 }
+
+
+

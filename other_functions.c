@@ -42,35 +42,35 @@ int builtin_check(char **av, char **env)
 
 int check_argv(char *av_0, char *actual_command, char **env)
 {
-	int i, j; 
-	struct stat status;
-	char *str = NULL; 
-
-	i = 0;
-	j = 0;
-	if (stat(av_0, &status) == 0)
-	{
-		actual_command = av_0;
-		return (1);
-	}
-
-	str = _getenv(env, "PATH");
-	do {
-		if (str[i] == '\0' || str[i] == ':')
-		{
-			_strcat(actual_command, "/");
-			_strcat(actual_command, av_0);
-			if (access(actual_command, 1) == 0)
-				return (1);
-			_memset(actual_command, 0, string_length(actual_command));
-			j = 0;
-		}
-		else
-		{
-			*(actual_command + j) = str[i];
-			j++;
-		}
-	} while (str[i++] != '\0');
-	
-	return (0);
+    int i, j;
+    struct stat status;
+    char *str = NULL;
+    i = 0;
+    j = 0;
+    if (stat(av_0, &status) == 0)
+    {
+        _strcpy(actual_command, av_0);
+        return 1;
+    }
+    str = _getenv(env, "PATH");
+    while (str[i] != '\0')
+    {
+        if (str[i] == ':' || str[i] == '\0')
+        {
+            actual_command[j] = '/';
+            j++;
+            _strcat(actual_command, av_0);
+            if (access(actual_command, 1) == 0)
+                return 1;
+            _memset(actual_command, 0, string_length(actual_command));
+            j = 0;
+        }
+        else
+        {
+            actual_command[j] = str[i];
+            j++;
+        }
+        i++;
+    }
+    return 0;
 }
