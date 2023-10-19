@@ -94,9 +94,12 @@ int execute(char *buff, int line_st, char *name, int loops_count, char **env)
 {
 	pid_t child_pid;
 	char **av = NULL;
-	char func[120] = {'\0'};
+	char func[200] = {'\0'};
 	int result;
 	int n = remove_spaces(buff);
+
+	if (buff[0] == '\0')
+		return (0);
 
 	if (line_st == -1)
 		return (1);

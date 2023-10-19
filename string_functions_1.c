@@ -31,6 +31,8 @@ int remove_spaces(char *str)
 {
 	int i = 0, j = 0, count = 0;
 	int flag = 0;
+	int k = 0;
+	int length = 0;
 
 	while (str[i] != '\0')
 	{
@@ -55,6 +57,12 @@ int remove_spaces(char *str)
 	{
 		str[j++] = '\0';
 	}
+	length = string_length(str);
+    k = length - 1;
+    while (k >= 0 && (str[k] == ' ' || str[k] == '\t' || str[k] == '\n')) {
+        str[k] = '\0';
+        k--;
+    }
 	return (count);
 }
 
