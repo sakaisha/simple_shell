@@ -1,12 +1,19 @@
 #include "main.h"
 
+/**
+ * main - Entry point for the shell program
+ * @argc: Number of arguments
+ * @argv: Array of arguments
+ * @env: Array of environment variables
+ * Return: Always 0 (success)
+ */
 int main(int argc, char **argv, char **env)
 {
 	char dir[250];
 	char *buff = NULL;
 	size_t size;
 	ssize_t line_st;
-	int count; 
+	int count;
 	int spaces;
 	int i;
 	char *name;
@@ -16,7 +23,7 @@ int main(int argc, char **argv, char **env)
 	i = 0;
 	size = 0;
 	line_st = 0;
-	count = 0; 
+	count = 0;
 	spaces = 0;
 	name = argv[0];
 	(void) argc;
@@ -26,8 +33,8 @@ int main(int argc, char **argv, char **env)
 
 	while (1)
 	{
-		if(execute_return != -1)
-		{  
+		if (execute_return != -1)
+		{
 			if (isatty(0) == 1)
 				write(1, ":)  ", 3);
 			spaces = 0;
@@ -58,7 +65,8 @@ int main(int argc, char **argv, char **env)
 				write(1, "\n", 1);
 				exit(2);
 				break;
-			} else if ((line_st == -1) && (spaces != 2))
+			}
+			else if ((line_st == -1) && (spaces != 2))
 			{
 				break;
 			}
@@ -73,6 +81,15 @@ int main(int argc, char **argv, char **env)
 	return (0);
 }
 
+/**
+ * execute - Execute a command
+ * @buff: Input buffer
+ * @line_st: Length of input line
+ * @name: Name of the shell program
+ * @loops_count: Number of loops executed
+ * @env: Array of environment variables
+ * Return: 0 on success, 1 on failure
+ */
 int execute(char *buff, int line_st, char *name, int loops_count, char **env)
 {
 	pid_t child_pid;
@@ -83,7 +100,7 @@ int execute(char *buff, int line_st, char *name, int loops_count, char **env)
 
 	if (line_st == -1)
 		return (1);
-		
+
 	av = malloc(sizeof(char *) * (n + 1));
 
 	if (av == NULL)
@@ -97,7 +114,7 @@ int execute(char *buff, int line_st, char *name, int loops_count, char **env)
 		return (0);
 	else if (result == 2)
 		return (2);
-	
+
 	_strcpy(func, av[0]);
 
 	if (check_argv(av[0], func, env) == 0)
