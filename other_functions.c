@@ -50,13 +50,11 @@ int _setenv(char **env, const char *name, const char *value, int overwrite)
 	return (0);
 }
 
-int builtin_check(char **av, char *prev_directory, char **env, char *name, int loop_count)
+int builtin_check(char **av, char **env)
 {
 	long i;
-	int value;
 	
 	i = 0;
-	value = 0;
 	if (_strcmp(av[0], "env") == 0)
 	{
 		i = 0;
@@ -74,14 +72,6 @@ int builtin_check(char **av, char *prev_directory, char **env, char *name, int l
 		free(av[0]);
 		free(av);
 		exit(0);
-	}
-	if (_strcmp(av[0], "cd") == 0)
-	{
-		value = change_directory(av[1], prev_directory, env, name, loop_count, av);
-		free(av);
-		if (value == 2)
-			return (2);
-		return (1);
 	}
 	return (0);
 }
@@ -119,35 +109,4 @@ int check_argv(char *av_0, char *actual_command, char **env)
 	} while (str[i++] != '\0');
 	
 	return (0);
-}
-
-int change_directory(char *av_2, char *current_path, char **env, char *name, int loops_count, char **av)
-{
-	char str[250];
-	char *tmp;
-
-	_strcpy(str, _getenv(env, "HOME"));
-	tmp = getcwd(NULL, 200);
-	if ((_strcmp(av_2, "$HOME") == 0) || (av_2 == NULL))
-	{
-		chdir(str);
-		_memset(current_path, 0, 250);
-		_strcpy(current_path, tmp);
-		free(tmp);
-		_setenv(env, "PWD", str, 1);
-		return (0);
-	}
-	else
-	{
-		write(2, name, string_length(name));
-		write(2, ": ", 2);
-		print_num(loops_count);
-		write(2, ": ", 2);
-		write(2, av[0], string_length(av[0]));
-		write(2, ": can't cd to ", 15);
-		write(2, av[1], string_length(av[1]));
-		write(2, "\n", 1);
-		free(tmp);
-		return (2);
-	}
 }

@@ -37,6 +37,3 @@ int split_string(char *buffer, char **str_array, int n)
 	str_array[k] = NULL;
 	return (k);
 }
-
-
-
