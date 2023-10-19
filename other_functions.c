@@ -2,52 +2,16 @@
 
 char *_getenv(char **env, const char *name)
 {
-	int i;
-	int j;
-	int length;
-
-	i = 0;
-	j = 0;
-	length = 0;
-	while (name[length] != '\0')
-		length++;
-	while (env[i])
-	{
-		while (env[i][j] == name[j])
-			j = j + 1;
-		if (j==length)
-			return (&env[i][length+1]);
-		i++;
-	}
-	return (NULL);
-}
-
-int _setenv(char **env, const char *name, const char *value, int overwrite)
-{
-	int i;
-	int j;
-	int length;
-
-	i = 0;
-	j = 0;
-	length = 0;
-	while (name[length] != '\0')
-		length++;
-	while (env[i] && overwrite > 0)
-	{
-		while (env[i][j] == name[j])
-			j = j + 1;
-		if (j == length)
-		{
-			env[i][length] = '=';
-			for (j = 0; value[j] != '\0'; j++)
-				env[i][length + j + 1] = value[j];
-			env[i][length + j + 1] = '\0';
-			break;
-		}
-		i++;
-	}
-	return (0);
+    while (*env)
+    {
+        int i = 0;
+        while (env[0][i] == name[i])
+            i++;
+        if (name[i] == '\0' && env[0][i] == '=')
+            return &env[0][i + 1];
+        env++;
+    }
+    return NULL;
 }
 
 int builtin_check(char **av, char **env)
