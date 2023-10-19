@@ -59,17 +59,10 @@ int remove_spaces(char *str)
 	}
 	length = string_length(str);
     k = length - 1;
-    while (k >= 0 && (str[k] == ' ' || str[k] == '\t')) {
+    while (k >= 0 && (str[k] == ' ' || str[k] == '\t' || str[k] == '\n')) {
         str[k] = '\0';
         k--;
     }
-	if (str[k] == '\n' && (str[k - 1] == ' ' || str[k - 1] == '\t') && k > 0)
-	{
-		str[k - 1] = '\n';
-		str[k] = '\0';
-	}
-	if (str[0] == '\n')
-		str[0] = '\0';
 	return (count);
 }
 
