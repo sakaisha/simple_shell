@@ -12,7 +12,7 @@
 int execute(char *buf, int line_st, char *name, int ct, char **env);
 
 /* string functions */
-char *_memset(char *s, char b, unsigned int n);
+char *_memset(char *s, char c, unsigned int n);
 int remove_spaces(char *str);
 char *_strcat(char *dest, char *src);
 void SIGINTfunction(int sig_int);
