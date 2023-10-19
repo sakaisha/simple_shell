@@ -63,7 +63,7 @@ int remove_spaces(char *str)
         str[k] = '\0';
         k--;
     }
-	if (str[k] == '\n' && str[k - 1] == ' ' && k > 0)
+	if (str[k] == '\n' && (str[k - 1] == ' ' || str[k - 1] == '\t') && k > 0)
 	{
 		str[k - 1] = '\n';
 		str[k] = '\0';
@@ -115,4 +115,3 @@ void SIGINTfunction(int sig_int)
 	signal(SIGINT, SIGINTfunction);
 	fflush(stdout);
 }
-
