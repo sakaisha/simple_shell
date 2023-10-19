@@ -99,7 +99,7 @@ int execute(char *buff, int line_st, char *name, int loops_count, char **env)
 	int n = remove_spaces(buff);
 
 	if (buff[0] == '\0')
-		return (0);
+		return (1);
 
 	if (line_st == -1)
 		return (1);
