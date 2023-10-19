@@ -1,5 +1,6 @@
 #ifndef MAIN_H
 #define MAIN_H
+#define BUFFER_SIZE 250
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,6 +11,13 @@
 
 /* execute fucntion */
 int execute(char *buf, int line_st, char *name, int ct, char **env);
+int prepare_execution(char *buff, int line_st, char *name, int loops_count, char **env, char ***av, char *func, int *result);
+int execute_command(char **av, char *func, char *name, int ct);
+void handle_command_not_found(char **av, char *name, int loops_count);
+void handle_prompt(void);
+int count_spaces(char *str);
+void handle_eof(char *buff);
+void handle_newline(void);
 
 /* string functions */
 char *_memset(char *s, char c, unsigned int n);
