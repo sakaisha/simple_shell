@@ -1,12 +1,12 @@
 #include "main.h"
 /**
- * _getline - trial to implement getline
+ * _getline_trial - trial to implement getline
  * @buff: Pointer to the buffer
  * @n: Pointer to the size of the buffer
  * @stream: Pointer to the stream.
  * Return: Number of characters read (including newline), or -1 on failure.
  */
-ssize_t _getline(char **buff, size_t *n, FILE *stream)
+ssize_t _getline_trial(char **buff, size_t *n, FILE *stream)
 {
 	size_t pos = 0, i = 0;
 	char c;
@@ -59,3 +59,4 @@ int _fileno(FILE *stream)
 		return (-1);
 	return (stream->_fileno);
 }
+

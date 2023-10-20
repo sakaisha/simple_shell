@@ -20,7 +20,7 @@ void handle_prompt(void);
 int count_spaces(char *str);
 void handle_eof(char *buff);
 void handle_newline(void);
-ssize_t _getline(char **buff, size_t *n, FILE *stream);
+ssize_t _getline_trial(char **buff, size_t *n, FILE *stream);
 int _fileno(FILE *stream);
 
 /* string functions */
@@ -42,6 +42,7 @@ int builtin_check(char **av, char **env, int loops_count);
 int check_argv(char *av_0, char *actual_command, char **env);
 
 #endif
+
 
 
 
