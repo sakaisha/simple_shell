@@ -11,7 +11,8 @@
 
 /* execute fucntion */
 int execute(char *buf, int line_st, char *name, int ct, char **env);
-int prepare_execution(char *buff, int line_st, char *name, int loops_count, char **env, char ***av, char *func, int *result);
+int prepare_execution(char *buff, int line_st, char *name, int loops_count,
+		char **env, char ***av, char *func, int *result);
 int execute_command(char **av, char *func, char *name, int ct);
 void handle_command_not_found(char **av, char *name, int loops_count);
 void handle_prompt(void);

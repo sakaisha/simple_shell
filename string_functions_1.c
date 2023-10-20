@@ -29,10 +29,7 @@ char *_memset(char *s, char c, unsigned int n)
  */
 int remove_spaces(char *str)
 {
-	int i = 0, j = 0, count = 0;
-	int flag = 0;
-	int k = 0;
-	int length = 0;
+	int i = 0, j = 0, count = 0, flag = 0, k = 0, length = 0;
 
 	while (str[i] != '\0')
 	{
@@ -58,11 +55,12 @@ int remove_spaces(char *str)
 		str[j++] = '\0';
 	}
 	length = string_length(str);
-    k = length - 1;
-    while (k >= 0 && (str[k] == ' ' || str[k] == '\t')) {
-        str[k] = '\0';
-        k--;
-    }
+	k = length - 1;
+	while (k >= 0 && (str[k] == ' ' || str[k] == '\t'))
+	{
+		str[k] = '\0';
+		k--;
+	}
 	if (str[k] == '\n' && (str[k - 1] == ' ' || str[k - 1] == '\t') && k > 0)
 	{
 		str[k - 1] = '\n';

@@ -32,15 +32,15 @@ int main(int argc, char **argv, char **env)
 			handle_eof(buff);
 		else if ((line_st == -1) && (spaces != 2))
 			break;
-		else
-			execute(buff, line_st, name, count, env);
+
+		execute(buff, line_st, name, count, env);
 	}
 
 	if (buff)
 		free(buff);
 
 	handle_newline();
-	return 0;
+	return (0);
 }
 
 
@@ -71,7 +71,7 @@ int count_spaces(char *str)
 		i++;
 	}
 
-	return spaces;
+	return (spaces);
 }
 
 /**

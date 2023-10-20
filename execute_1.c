@@ -11,18 +11,19 @@
  */
 int execute(char *buff, int line_st, char *name, int loops_count, char **env)
 {
-    char **av = NULL;
-    char func[BUFFER_SIZE] = {'\0'};
-    int result;
+	char **av = NULL;
+	char func[BUFFER_SIZE] = {'\0'};
+	int result;
 
-    if (prepare_execution(buff, line_st, name, loops_count, env, &av, func, &result) != 0)
-        return result;
+	if (prepare_execution(buff, line_st, name, loops_count,
+				env, &av, func, &result) != 0)
+		return (result);
 
-    if (execute_command(av, func, name, loops_count) != 0)
-        return 1;
+	if (execute_command(av, func, name, loops_count) != 0)
+		return (1);
 
-    free(av);
-    return (0);
+	free(av);
+	return (0);
 }
 
 /**
@@ -37,41 +38,42 @@ int execute(char *buff, int line_st, char *name, int loops_count, char **env)
  * @result: Pointer to store the result of the preparation.
  * Return: 0 on success, error code on failure.
  */
-int prepare_execution(char *buff, int line_st, char *name, int loops_count, char **env, char ***av, char *func, int *result)
+int prepare_execution(char *buff, int line_st, char *name, int loops_count,
+		char **env, char ***av, char *func, int *result)
 {
-    int n = remove_spaces(buff);
+	int n = remove_spaces(buff);
 
-    if (buff[0] == '\0')
-        return (1);
+	if (buff[0] == '\0')
+		return (1);
 
-    if (line_st == -1)
-        return (2);
+	if (line_st == -1)
+		return (2);
 
-    *av = malloc(sizeof(char *) * (n + 1));
+	*av = malloc(sizeof(char *) * (n + 1));
 
-    if (*av == NULL)
-        return (3);
+	if (*av == NULL)
+		return (3);
 
-    split_string(buff, *av, line_st);
+	split_string(buff, *av, line_st);
 
-    *result = builtin_check(*av, env);
+	*result = builtin_check(*av, env);
 
-    if (*result == 1 || *result == 2)
-    {
-        free(*av);
-        return (4);
-    }
+	if (*result == 1 || *result == 2)
+	{
+		free(*av);
+		return (4);
+	}
 
-    _strcpy(func, (*av)[0]);
+	_strcpy(func, (*av)[0]);
 
-    if (check_argv((*av)[0], func, env) == 0)
-    {
-        handle_command_not_found(*av, name, loops_count);
-        free(*av);
-        return (5);
-    }
+	if (check_argv((*av)[0], func, env) == 0)
+	{
+		handle_command_not_found(*av, name, loops_count);
+		free(*av);
+		return (5);
+	}
 
-    return (0);
+	return (0);
 }
 
 /**
@@ -84,28 +86,28 @@ int prepare_execution(char *buff, int line_st, char *name, int loops_count, char
  */
 int execute_command(char **av, char *func, char *name, int loops_count)
 {
-    pid_t child_pid = fork();
+	pid_t child_pid = fork();
 
-    if (child_pid == -1)
-    {
-        free(av);
-        perror("fork Error:");
-        return (1);
-    }
-    else if (child_pid == 0)
-    {
-        if (execve(func, av, NULL) == -1)
-        {
-            handle_command_not_found(av, name, loops_count);
-            free(av);
-            exit(0);
-        }
-    }
-    else
-    {
-        wait(NULL);
-    }
-    return (0);
+	if (child_pid == -1)
+	{
+		free(av);
+		perror("fork Error:");
+		return (1);
+	}
+	else if (child_pid == 0)
+	{
+		if (execve(func, av, NULL) == -1)
+		{
+			handle_command_not_found(av, name, loops_count);
+			free(av);
+			exit(0);
+		}
+	}
+	else
+	{
+		wait(NULL);
+	}
+	return (0);
 }
 
 /**
@@ -116,11 +118,11 @@ int execute_command(char **av, char *func, char *name, int loops_count)
  */
 void handle_command_not_found(char **av, char *name, int loops_count)
 {
-    write(2, name, string_length(name));
-    write(2, ": ", 2);
-    print_num(loops_count);
-    write(2, ": ", 2);
-    write(2, av[0], string_length(av[0]));
-    write(2, ": ", 2);
-    write(2, "not found\n", 10);
+	write(2, name, string_length(name));
+	write(2, ": ", 2);
+	print_num(loops_count);
+	write(2, ": ", 2);
+	write(2, av[0], string_length(av[0]));
+	write(2, ": ", 2);
+	write(2, "not found\n", 10);
 }
