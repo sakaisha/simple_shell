@@ -22,6 +22,9 @@ void handle_eof(char *buff);
 void handle_newline(void);
 ssize_t _getline_trial(char **buff, size_t *n, FILE *stream);
 int _fileno(FILE *stream);
+ssize_t read_char_from_stream(char *c, FILE *stream);
+ssize_t build_buffer(char **buff, size_t *n, char c,
+		size_t *pos, int *ignore_line, int *word_started);
 
 /* string functions */
 char *_memset(char *s, char c, unsigned int n);
