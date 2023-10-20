@@ -60,7 +60,6 @@ int prepare_execution(char *buff, int line_st, char *name, int loops_count,
 
 	if (*result == 1 || *result == 2)
 	{
-		free(*av);
 		return (4);
 	}
 
@@ -126,3 +125,4 @@ void handle_command_not_found(char **av, char *name, int loops_count)
 	write(2, ": ", 2);
 	write(2, "not found\n", 10);
 }
+
