@@ -60,7 +60,7 @@ char *_strcpy(char *dest, const char *src)
 /**
  * string_to_integer - Convert a string to an integer
  * @str: The string to be converted
- * 
+ *
  * Return: The integer value of the string
  * -1 if the string is not a number
  */
@@ -76,3 +76,4 @@ long string_to_integer(char *str)
 	}
 	return (num);
 }
+

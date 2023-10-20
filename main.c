@@ -13,6 +13,7 @@ int main(int argc, char **argv, char **env)
 	size_t size = 0;
 	ssize_t line_st;
 	int count = 0, spaces;
+	int execure_rt = 0;
 
 	(void)argc;
 	_memset(dir, 0, BUFFER_SIZE);
@@ -33,13 +34,15 @@ int main(int argc, char **argv, char **env)
 		else if ((line_st == -1) && (spaces != 2))
 			break;
 
-		execute(buff, line_st, name, count, env);
+		execure_rt = execute(buff, line_st, name, count, env);
 	}
 
 	if (buff)
 		free(buff);
 
 	handle_newline();
+	if (execure_rt == 169)
+		return (2);
 	return (0);
 }
 
@@ -95,3 +98,4 @@ void handle_newline(void)
 	if (isatty(0) == 1)
 		write(1, "\n", 1);
 }
+
