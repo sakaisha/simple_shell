@@ -99,7 +99,7 @@ int execute_command(char **av, char *func, char *name, int loops_count)
 		{
 			handle_command_not_found(av, name, loops_count);
 			free(av);
-			exit(0);
+			exit(2);
 		}
 	}
 	else
