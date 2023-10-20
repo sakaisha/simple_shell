@@ -11,6 +11,7 @@ ssize_t _getline_trial(char **buff, size_t *n, FILE *stream)
 	size_t pos = 0, i = 0;
 	char c;
 	int fd = _fileno(stream);
+	int ignore_line = 0;
 
 	if (buff == NULL || n == NULL)
 		return (-1);
@@ -24,27 +25,38 @@ ssize_t _getline_trial(char **buff, size_t *n, FILE *stream)
 	}
 	while (read(fd, &c, 1) > 0)
 	{
-		if (pos + 1 >= *n)
+		if (!ignore_line)
 		{
-			size_t new_size = *n * 2;
-			char *new_buff = (char *)malloc(new_size);
+			if (pos + 1 >= *n)
+			{
+				size_t new_size = *n * 2;
+				char *new_buff = (char *)malloc(new_size);
 
-			if (new_buff == NULL)
-				return (-1);
-			for (i = 0; i < *n; ++i)
-				new_buff[i] = (*buff)[i];
-			free(*buff);
-			*buff = new_buff;
-			*n = new_size;
+				if (new_buff == NULL)
+					return (-1);
+				for (i = 0; i < *n; ++i)
+					new_buff[i] = (*buff)[i];
+				free(*buff);
+				*buff = new_buff;
+				*n = new_size;
+			}
+			(*buff)[pos++] = c;
 		}
-		(*buff)[pos++] = c;
+
+		if (c == '#')
+			ignore_line = 1;
+
 		if (c == '\n')
+		{
+			ignore_line = 0;
 			break;
+		}
 	}
+
 	if (pos == 0)
 		return (-1);
 	(*buff)[pos] = '\0';
-	return ((ssize_t) pos);
+	return ((ssize_t)pos);
 }
 
 /**
