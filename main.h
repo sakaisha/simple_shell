@@ -14,7 +14,7 @@
 int execute(char *buf, int line_st, char *name, int ct, char **env);
 int prepare_execution(char *buff, int line_st, char *name, int loops_count,
 		char **env, char ***av, char *func, int *result);
-int execute_command(char **av, char *func, char *name, int ct);
+int execute_command(char **av, char *func, char *name, int ct, char **env);
 void handle_command_not_found(char **av, char *name, int loops_count);
 void handle_prompt(void);
 int count_spaces(char *str);
@@ -45,6 +45,7 @@ int builtin_check(char **av, char **env, int loops_count);
 int check_argv(char *av_0, char *actual_command, char **env);
 
 #endif
+
 
 
 
