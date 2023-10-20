@@ -31,11 +31,13 @@ char *_getenv(char **env, const char *name)
  */
 int builtin_env(char **env)
 {
-	while (*env != NULL)
+	long i = 0;
+
+	while (env[i])
 	{
-			write(1, *env, string_length(*env));
-			write(1, "\n", 1);
-			env++;
+		write(1, env[i], string_length(env[i]));
+		write(1, "\n", 1);
+		i = i + 1;
 	}
 	return (1);
 }
