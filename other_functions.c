@@ -51,7 +51,7 @@ int builtin_check(char **av, char **env, int loops_count)
 	{
 		free(av[0]);
 		free(av);
-		if(loops_count > 1)
+		if (loops_count > 1)
 			exit(2);
 		else
 			exit(0);
