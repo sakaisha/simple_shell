@@ -34,7 +34,8 @@ int split_string(char *str, char **str_array, int n);
 
 /* other functions */
 char *_getenv(char **env, const char *name);
-int builtin_check(char **av, char **env);
+int builtin_check(char **av, char **env, int loops_count);
 int check_argv(char *av_0, char *actual_command, char **env);
 
 #endif
+

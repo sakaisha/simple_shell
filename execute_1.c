@@ -56,7 +56,7 @@ int prepare_execution(char *buff, int line_st, char *name, int loops_count,
 
 	split_string(buff, *av, line_st);
 
-	*result = builtin_check(*av, env);
+	*result = builtin_check(*av, env, loops_count);
 
 	if (*result == 1 || *result == 2)
 	{

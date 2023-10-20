@@ -30,7 +30,7 @@ char *_getenv(char **env, const char *name)
  *
  * Return: 1 if the command is a built-in and is executed, 0 otherwise.
  */
-int builtin_check(char **av, char **env)
+int builtin_check(char **av, char **env, int loops_count)
 {
 	long i;
 
@@ -51,7 +51,10 @@ int builtin_check(char **av, char **env)
 	{
 		free(av[0]);
 		free(av);
-		exit(2);
+		if(loops_count > 1)
+			exit(2);
+		else
+			exit(0);
 	}
 	return (0);
 }
