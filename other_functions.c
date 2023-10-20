@@ -51,7 +51,7 @@ int builtin_check(char **av, char **env)
 	{
 		free(av[0]);
 		free(av);
-		exit(0);
+		exit(2);
 	}
 	return (0);
 }
@@ -100,3 +100,4 @@ int check_argv(char *av_0, char *actual_command, char **env)
 	}
 	return (0);
 }
+
