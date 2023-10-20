@@ -76,7 +76,7 @@ int builtin_exit(char **av, int loops_count)
 			write(STDERR_FILENO, av[1], string_length(av[1]));
 			write(STDERR_FILENO, "\n", 1);
 			free(av);
-			return (169);
+			return (2);
 		}
 		else if (i >= 0)
 		{
@@ -151,6 +151,7 @@ int check_argv(char *av_0, char *actual_command, char **env)
 	}
 	return (0);
 }
+
 
 
 
