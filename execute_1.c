@@ -85,45 +85,45 @@ int prepare_execution(char *buff, int line_st, char *name, int loops_count,
  */
 int execute_command(char **av, char *func, char *name, int loops_count)
 {
-    pid_t child_pid = fork();
+	pid_t child_pid = fork();
 	int status;
 
-    if (child_pid == -1)
-    {
-        free(av);
-        perror("fork Error:");
-        return 1;
-    }
-    else if (child_pid == 0)
-    {
-        if (execve(func, av, NULL) == -1)
-        {
-            handle_command_not_found(av, name, loops_count);
-            free(av);
-            _exit(0);
-        }
-    }
-    else
-    {
-        if (waitpid(child_pid, &status, 0) == -1)
-        {
-            perror("waitpid Error:");
-            free(av);
-            return 1;
-        }
-        if (WIFEXITED(status))
-        {
-            int exit_status = WEXITSTATUS(status);
-            free(av);
-            return exit_status;
-        }
-        else
-        {
-            free(av);
-            return 1;
-        }
-    }
-    return 0;
+	if (child_pid == -1)
+	{
+		free(av);
+		perror("fork Error:");
+		return 1;
+	}
+	else if (child_pid == 0)
+	{
+		if (execve(func, av, NULL) == -1)
+		{
+			handle_command_not_found(av, name, loops_count);
+			free(av);
+			_exit(0);
+		}
+	}
+	else
+	{
+		if (waitpid(child_pid, &status, 0) == -1)
+		{
+			perror("waitpid Error:");
+			free(av);
+			return 1;
+		}
+		if (WIFEXITED(status))
+		{
+			int exit_status = WEXITSTATUS(status);
+			free(av);
+			return exit_status;
+		}
+		else
+		{
+			free(av);
+			return 1;
+		}
+	}
+	return 0;
 }
 
 /**
