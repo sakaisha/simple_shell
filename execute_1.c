@@ -19,7 +19,7 @@ int execute(char *buff, int line_st, char *name, int loops_count, char **env)
 				env, &av, func, &result) != 0)
 		return (result);
 
-	if (execute_command(av, func, name, loops_count) != 0)
+	if (execute_command(av, func, name, loops_count, env) != 0)
 		return (1);
 
 	free(av);
@@ -83,7 +83,8 @@ int prepare_execution(char *buff, int line_st, char *name, int loops_count,
  * @loops_count: Number of loops executed.
  * Return: 0 on success, 1 on failure.
  */
-int execute_command(char **av, char *func, char *name, int loops_count)
+int execute_command(char **av, char *func,
+		char *name, int loops_count, char **env)
 {
 	pid_t child_pid = fork();
 
@@ -95,7 +96,7 @@ int execute_command(char **av, char *func, char *name, int loops_count)
 	}
 	else if (child_pid == 0)
 	{
-		if (execve(func, av, NULL) == -1)
+		if (execve(func, av, env) == -1)
 		{
 			handle_command_not_found(av, name, loops_count);
 			free(av);
