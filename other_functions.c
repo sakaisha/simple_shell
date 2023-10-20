@@ -27,6 +27,7 @@ char *_getenv(char **env, const char *name)
  * builtin_check - Check if a command is a built-in command and execute.
  * @av: Array of strings containing the command and its arguments.
  * @env: Pointer to the array of environment variables.
+ * @loops_count: Number of loops executed.
  *
  * Return: 1 if the command is a built-in and is executed, 0 otherwise.
  */
