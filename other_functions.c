@@ -99,7 +99,10 @@ int builtin_exit(char **av, int loops_count)
 int builtin_check(char **av, char **env, int loops_count)
 {
 	if (_strcmp(av[0], "env") == 0)
+	{
+		free(av);
 		return (builtin_env(env));
+	}
 	else if (_strcmp(av[0], "exit") == 0)
 		return (builtin_exit(av, loops_count));
 
@@ -151,5 +154,6 @@ int check_argv(char *av_0, char *actual_command, char **env)
 	}
 	return (0);
 }
+
 
 
