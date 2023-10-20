@@ -41,9 +41,7 @@ int main(int argc, char **argv, char **env)
 		free(buff);
 
 	handle_newline();
-	if(status == 2)
-		return (status);
-	return (0);
+	return (status);
 }
 
 
