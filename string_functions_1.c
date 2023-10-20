@@ -27,22 +27,23 @@ char *_memset(char *s, char c, unsigned int n)
  *
  * Return: Number of spaces removed.
  */
+
 int remove_spaces(char *str)
 {
-	int i = 0, j = 0, count = 0, flag = 0, k = 0, length = 0;
+	int i = 0, j = 0, count = 0, length = 0, flag = 0;
 
 	while (str[i] != '\0')
 	{
 		if (str[i] == ' ' || str[i] == '\t')
+		{
 			flag = 0;
+		}
 		else
 		{
 			if (!flag)
 			{
 				if (count > 0)
-				{
 					str[j++] = ' ';
-				}
 				flag = 1;
 				count++;
 			}
@@ -50,29 +51,24 @@ int remove_spaces(char *str)
 		}
 		i++;
 	}
-	while (str[j] != '\0')
-	{
-		str[j++] = '\0';
-	}
-	length = string_length(str);
-	k = length - 1;
-	while (k >= 0 && (str[k] == ' ' || str[k] == '\t'))
-	{
-		str[k] = '\0';
-		k--;
-	}
+	str[j] = '\0';
+	length = j;
+	while (length > 0 && (str[length - 1] == ' ' || str[length - 1] == '\t'))
+		str[--length] = '\0';
 	if (str[0] == '\n')
 	{
 		str[0] = '\0';
 		return (count);
 	}
-	if (str[k] == '\n' && (str[k - 1] == ' ' || str[k - 1] == '\t') && k > 0)
+	if (length > 1 && str[length - 1] == '\n' &&
+		(str[length - 2] == ' ' || str[length - 2] == '\t'))
 	{
-		str[k - 1] = '\n';
-		str[k] = '\0';
+		str[length - 2] = '\n';
+		str[length - 1] = '\0';
 	}
 	return (count);
 }
+
 
 /**
  * _strcat - Concatenates two strings.
