@@ -19,7 +19,7 @@ int main(int argc, char **argv, char **env)
 	_strcpy(dir, _getenv(env, "PWD"));
 	signal(2, SIGINTfunction);
 
-	while ((handle_prompt(), line_st = _getline_trial(&buff, &size, stdin)) != -1)
+	while ((handle_prompt(), line_st = getline(&buff, &size, stdin)) != -1)
 	{
 		count++;
 
@@ -95,6 +95,7 @@ void handle_newline(void)
 	if (isatty(0) == 1)
 		write(1, "\n", 1);
 }
+
 
 
 
