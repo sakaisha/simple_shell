@@ -87,12 +87,13 @@ int execute_command(char **av, char *func, char *name, int loops_count)
 {
 	pid_t child_pid = fork();
 	int status;
+	int exit_status;
 
 	if (child_pid == -1)
 	{
 		free(av);
 		perror("fork Error:");
-		return 1;
+		return (1);
 	}
 	else if (child_pid == 0)
 	{
@@ -109,21 +110,21 @@ int execute_command(char **av, char *func, char *name, int loops_count)
 		{
 			perror("waitpid Error:");
 			free(av);
-			return 1;
+			return (1);
 		}
 		if (WIFEXITED(status))
 		{
-			int exit_status = WEXITSTATUS(status);
+			exit_status = WEXITSTATUS(status);
 			free(av);
-			return exit_status;
+			return (exit_status);
 		}
 		else
 		{
 			free(av);
-			return 1;
+			return (1);
 		}
 	}
-	return 0;
+	return (0);
 }
 
 /**
