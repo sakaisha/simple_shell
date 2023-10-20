@@ -8,6 +8,7 @@
 #include <sys/wait.h>
 #include <signal.h>
 #include <unistd.h>
+#include <limits.h>
 
 /* execute fucntion */
 int execute(char *buf, int line_st, char *name, int ct, char **env);
@@ -31,6 +32,7 @@ char *_strcpy(char *dest, const char *src);
 int string_length(char *str);
 int _putchar(char c);
 int split_string(char *str, char **str_array, int n);
+long string_to_integer(char *str);
 
 /* other functions */
 char *_getenv(char **env, const char *name);
@@ -38,4 +40,5 @@ int builtin_check(char **av, char **env, int loops_count);
 int check_argv(char *av_0, char *actual_command, char **env);
 
 #endif
+
 

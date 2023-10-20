@@ -56,3 +56,23 @@ char *_strcpy(char *dest, const char *src)
 
 	return (dest);
 }
+
+/**
+ * string_to_integer - Convert a string to an integer
+ * @str: The string to be converted
+ * 
+ * Return: The integer value of the string
+ * -1 if the string is not a number
+ */
+long string_to_integer(char *str)
+{
+	long num = 0, i = 0;
+
+	for (; str[i] != '\0'; i++)
+	{
+		if (str[i] > '9' || str[i] < '0')
+			return (-1);
+		num = num * 10 + (str[i] - '0');
+	}
+	return (num);
+}

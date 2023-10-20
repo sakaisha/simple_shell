@@ -48,7 +48,7 @@ int builtin_check(char **av, char **env, int loops_count)
 		free(av);
 		return (1);
 	}
-	if (_strcmp(av[0], "exit") == 0)
+	if ((_strcmp(av[0], "exit") == 0) && (av[1] == NULL))
 	{
 		free(av[0]);
 		free(av);
@@ -56,6 +56,29 @@ int builtin_check(char **av, char **env, int loops_count)
 			exit(2);
 		else
 			exit(0);
+	}
+	else if((_strcmp(av[0], "exit") == 0) && (av[1] != NULL))
+	{
+		i = string_to_integer(av[1]);
+		if (i > INT_MAX || i < 0)
+		{
+			write(STDERR_FILENO, "./hsh", string_length("./hsh"));
+			write(STDERR_FILENO, ": ", 2);
+			print_num(loops_count);
+			write(STDERR_FILENO, ": ", 2);
+			write(STDERR_FILENO, av[0], string_length(av[0]));
+			write(STDERR_FILENO, ": Illegal number: ", 18);
+			write(STDERR_FILENO, av[1], string_length(av[1]));
+			write(STDERR_FILENO, "\n", 1);
+			free(av);
+			return (2);
+		}
+		else if (i >= 0)
+		{
+			free(av[0]);
+			free(av);
+			exit(i%256);
+		}
 	}
 	return (0);
 }
@@ -104,4 +127,5 @@ int check_argv(char *av_0, char *actual_command, char **env)
 	}
 	return (0);
 }
+
 
