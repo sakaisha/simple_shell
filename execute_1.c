@@ -81,6 +81,8 @@ int prepare_execution(char *buff, int line_st, char *name, int loops_count,
  * @func: Buffer containing the command.
  * @name: Name of the shell program.
  * @loops_count: Number of loops executed.
+ * @env: Array of environment variables
+ *
  * Return: 0 on success, 1 on failure.
  */
 int execute_command(char **av, char *func,
